@@ -228,21 +228,31 @@ h1, h2, .display-font {
    to solve the way the old grain recipe had -- each dot just repeats with
    the 220px tile on its own. Kept in sync with .product-photo-frame in
    shop.css, which uses the same recipe.
-   Three things layered here, back to front:
+   Four things layered here, back to front:
    1. A faint diagonal crosshatch (same repeating-linear-gradient language
       the site's own .zone texture already uses elsewhere) so this reads as
       *textured paper with a starfield printed on it* first, a flat photo
       of space second -- paper-craft material, not a screenshot.
    2. The stars themselves: nine small fixed points plus two brighter
-      "hero" stars (a tight core + a soft wider glow layer each) and one
-      faint nebula wash tinted with this site's own green rather than an
-      unrelated purple/blue, so it still reads as part of the same brand.
-   3. A per-frame vignette, same as before, darkening toward the torn edge.
-   background-attachment: fixed on every layer except the vignette --
-   same parallax technique home.css's own zone texture already uses (see
-   its header comment): the star plane holds still against the viewport
-   while the page scrolls, so each frame acts as a window onto one shared
-   sky instead of carrying its own independent copy. */
+      "hero" stars (a tight core + a soft wider glow layer each).
+   3. A faint nebula wash, tinted with this site's own green rather than an
+      unrelated purple/blue. Deliberately NOT part of the tiled/fixed plane
+      below -- an area-glow tiled at 220px and pinned to the viewport gets
+      cropped differently by every frame's own bounds, which showed up as a
+      hard-edged, seemingly-arbitrary green patch rather than a soft glow
+      (a discrete star surviving a crop just looks like "a star," but a
+      broad translucent wash surviving one looks like a visible cutoff).
+      This layer is local to each frame instead (scroll, 100% 100%, its own
+      `at X% Y%` position) with a three-stop falloff for a gradual edge, so
+      every frame shows the same complete, softly-faded glow regardless of
+      scroll position.
+   4. A per-frame vignette, same as before, darkening toward the torn edge.
+   background-attachment: fixed on the crosshatch/star layers only (nebula
+   and vignette are both local/scroll) -- same parallax technique home.css's
+   own zone texture already uses (see its header comment): the star plane
+   holds still against the viewport while the page scrolls, so each frame
+   acts as a window onto one shared sky instead of carrying its own
+   independent copy. */
 .rip--photo::before {
   background-color: var(--photo-mat);
   background-image:
@@ -261,10 +271,10 @@ h1, h2, .display-font {
     radial-gradient(7px 7px at 110px 130px, rgba(255,255,255,.22), transparent 70%),
     radial-gradient(2px 2px at 40px 90px, #fff, transparent 60%),
     radial-gradient(6px 6px at 40px 90px, rgba(255,255,255,.18), transparent 70%),
-    radial-gradient(ellipse 160px 120px at 75% 20%, rgba(78,159,61,.16), transparent 70%),
+    radial-gradient(ellipse 65% 55% at 78% 20%, rgba(78,159,61,.16), rgba(78,159,61,.06) 55%, transparent 85%),
     radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.35) 100%);
-  background-size: 54px 54px, 54px 54px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%;
-  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, scroll;
+  background-size: 54px 54px, 54px 54px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%, 100% 100%;
+  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, scroll, scroll;
   box-shadow: inset 0 0 8px rgba(0,0,0,.25);
 }
 
