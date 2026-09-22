@@ -184,6 +184,15 @@ body.home .footer-socials a:hover { background: rgba(255, 255, 255, 0.22); }
 
 @media (max-width: 640px) {
   .zone { padding: 54px 16px 54px; }
+  /* Real bug, not a design nitpick: the rule above's padding shorthand
+     resets padding-top on every .zone including .zone--hero, clobbering
+     that zone's own calc(var(--header-h) + 54px) further up this file
+     (same specificity, later in the cascade wins) -- so on mobile the
+     hero content started under the fixed header instead of clearing it.
+     Restoring a header-aware padding-top here, scoped to .zone--hero
+     specifically, so .zone--discord (which never needed header clearance)
+     keeps the plain 54px reduction from the rule above. */
+  .zone--hero { padding-top: calc(var(--header-h) + 34px); }
   .hero-portrait { width: 140px; height: 140px; margin-bottom: -28px; }
   .hero-card { padding: 48px 24px 30px; }
   .tile-grid { gap: 28px; }
