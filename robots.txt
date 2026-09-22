@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /privat/
+
+Sitemap: https://jamonhd.de/sitemap.xml

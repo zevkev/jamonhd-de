@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop | Jamon</title>
+<meta name="description" content="Der offizielle Jamon Merch Shop. Hoodies, T Shirts, Caps und mehr für die Community. Sicher bestellen über Fourthwall.">
+
+<link rel="icon" type="image/png" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<link rel="apple-touch-icon" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Shop | Jamon">
+<meta property="og:description" content="Hoodies, T Shirts, Caps und mehr. Der offizielle Jamon Merch Shop.">
+<meta property="og:image" content="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<link rel="canonical" href="https://jamonhd.de/shop/">
+<meta property="og:url" content="https://jamonhd.de/shop/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/shop.css">
+</head>
+<body>
+
+<script type="module" src="/js/theme.js"></script>
+<script type="module" src="/js/consent.js"></script>
+
+<div id="site-header"></div>
+
+<div class="page-body">
+  <div class="container" style="display:flex; flex-direction:column; align-items:center;">
+
+    <!-- One paper card instead of two separately floating blocks (a plain
+         text header + a standalone campaign banner) -- js/catalog.js's
+         loadCampaignBanner() still only fills #shop-campaign-banner when a
+         promo is actually active, now as an inset strip inside this same
+         card instead of its own separate torn-paper shape. -->
+    <div class="hero-shop rip">
+      <h1>Jamon Merch</h1>
+      <p>Bestickte Shirts, Hoodies und mehr für die Community.</p>
+      <p class="shop-shipping-note">Preise inkl. MwSt., zzgl. Versandkosten.</p>
+      <div id="shop-campaign-banner"></div>
+    </div>
+
+    <div class="filter-bar" id="filter-bar"></div>
+
+    <div class="product-grid" id="product-grid"></div>
+
+  </div>
+</div>
+
+<div id="site-footer"></div>
+
+<script type="module">
+  import { mountLayout } from "/js/layout.js";
+  mountLayout();
+</script>
+<script type="module" src="/js/catalog.js"></script>
+</body>
+</html>

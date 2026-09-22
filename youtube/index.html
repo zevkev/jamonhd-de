@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YouTube | Jamon</title>
+<meta name="description" content="Alle Videos von Jamon auf YouTube. Freizeitpark-Content, Gaming und Vlogs, immer aktuell.">
+
+<link rel="icon" type="image/png" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<link rel="apple-touch-icon" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="YouTube | Jamon">
+<meta property="og:description" content="Alle Videos von Jamon auf YouTube.">
+<meta property="og:image" content="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<link rel="canonical" href="https://jamonhd.de/youtube/">
+<meta property="og:url" content="https://jamonhd.de/youtube/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/shop.css">
+<link rel="stylesheet" href="/css/youtube.css">
+</head>
+<body class="yt-page">
+
+<script type="module" src="/js/theme.js"></script>
+<script type="module" src="/js/consent.js"></script>
+
+<div id="site-header"></div>
+
+<!-- Full-bleed hero: sits outside .page-body on purpose so it isn't pushed
+     down by that class's header-clearing padding-top -- it starts at the
+     very top of the page (y=0) and the fixed site nav floats transparently
+     on top of it instead of above it (see body.yt-page rules in
+     css/youtube.css). js/youtube.js fills #yt-hero-media/#yt-hero-content
+     once the feed loads; #yt-hero-sentinel marks where the hero ends so the
+     nav can switch back to its normal solid look once it's scrolled past. -->
+<div class="yt-hero-full" id="yt-hero-full">
+  <div class="yt-hero-media" id="yt-hero-media">
+    <div class="skeleton-card yt-hero-skeleton"></div>
+  </div>
+  <div class="yt-hero-scrim" aria-hidden="true"></div>
+  <div class="yt-hero-content" id="yt-hero-content">
+    <div class="skeleton-line yt-hero-skel yt-hero-skel--badge"></div>
+    <div class="skeleton-line yt-hero-skel yt-hero-skel--title"></div>
+    <div class="skeleton-line yt-hero-skel yt-hero-skel--meta"></div>
+  </div>
+</div>
+<div id="yt-hero-sentinel" aria-hidden="true"></div>
+
+<div class="page-body">
+  <div class="container" style="display:flex; flex-direction:column; align-items:center;">
+
+    <!-- The hero above carries the visible page heading (the latest video's
+         own title); this keeps a stable, non-video-dependent <h1> for
+         accessibility/SEO without a second big heading competing with it
+         visually. -->
+    <h1 class="visually-hidden">Jamon auf YouTube – Videos und Shorts</h1>
+
+    <div class="yt-library">
+      <div class="scissor-line" aria-hidden="true"></div>
+
+      <div class="yt-library-head">
+        <h2 class="yt-section-title">Mehr von Jamon</h2>
+        <div class="filter-bar" id="yt-filter-bar">
+          <span class="yt-pill-skeleton"></span>
+          <span class="yt-pill-skeleton"></span>
+        </div>
+      </div>
+
+      <div id="yt-spotlight"></div>
+
+      <div class="vod-section-head" id="yt-sort-bar"></div>
+
+      <div class="yt-main-grid" id="yt-grid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+
+      <div class="yt-load-more-row" id="yt-load-more"></div>
+    </div>
+
+  </div>
+</div>
+
+<div id="site-footer"></div>
+
+<script type="module">
+  import { mountLayout } from "/js/layout.js";
+  mountLayout();
+</script>
+<script type="module" src="/js/youtube.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+name: Refresh YouTube feed
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch YouTube main channel feed
+        # continue-on-error so a not-yet-configured (or quota-exhausted)
+        # YOUTUBE_API_KEY never blocks the commit step below. See the setup
+        # comment atop scripts/fetch-main-feed.mjs for how to create/add
+        # that secret.
+        continue-on-error: true
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: node scripts/fetch-main-feed.mjs
+
+      - name: Commit changes if any
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/data/main-videos.json
+          git diff --cached --quiet || git commit -m "chore: refresh video feed"
+          git push

@@ -1,0 +1,186 @@
+/* Homepage-only: the "scroll story" bio page — colour zones that wash into
+   each other, instead of the neutral cutting-mat used on the rest of the
+   site. Discord content is built from small scattered notes/tickets rather
+   than a uniform card grid, so it reads as assembled, not templated.
+   Ported from zevkev.de: that page has a third Twitch zone below Discord
+   (toggleable, since that's on/off content there) -- this site has no
+   Twitch content at all, so Discord is simply the last zone here, always,
+   not a conditional state. */
+
+body.home { background-color: var(--zone-discord); background-image: none; position: relative; }
+
+/* The dot/stripe texture used to live on a body.home::before layer stacked
+   ABOVE the zones (z-index 3 vs 2) so it wouldn't be hidden by their opaque
+   background colors -- but that also put it above every real page element
+   (hero card, buttons, Discord section, ...), which read as the texture
+   "overlapping" the content instead of sitting behind it. It's baked
+   directly into each zone's own background-image instead now: a background
+   always paints below that element's own children no matter what z-index
+   anything else has, so this can't ever re-overlap content again. Each
+   zone's texture layers use background-attachment: fixed (viewport-anchored)
+   while each zone's own color/gradient stays the default `scroll`
+   (local to that zone) -- that's what keeps the pattern continuous across
+   zone boundaries without a visible seam. */
+.zone {
+  width: 100%; padding: 74px 20px 64px; box-sizing: border-box; position: relative; overflow: hidden; z-index: 2;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 1px, transparent 1px, transparent 160px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 1px, transparent 1px, transparent 160px),
+    radial-gradient(rgba(255,255,255,.15) 1.4px, transparent 1.5px);
+  background-size: auto, auto, 26px 26px;
+  background-attachment: fixed, fixed, fixed;
+}
+
+.zone--hero {
+  background-color: var(--zone-hero);
+  padding-top: calc(var(--header-h) + 46px);
+}
+
+/* Last zone on the page -- fades from --zone-hero into --zone-discord and
+   stays there (no third zone below it to hand off to, unlike zevkev.de's
+   Twitch-enabled state). */
+.zone--discord {
+  padding-bottom: 100px;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 1px, transparent 1px, transparent 160px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 1px, transparent 1px, transparent 160px),
+    radial-gradient(rgba(255,255,255,.15) 1.4px, transparent 1.5px),
+    linear-gradient(to bottom, var(--zone-hero) 0, var(--zone-discord) 140px);
+  background-size: auto, auto, 26px 26px, auto;
+  background-attachment: fixed, fixed, fixed, scroll;
+}
+
+.zone-inner { width: 100%; max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; position: relative; }
+
+/* The footer's own paper texture (see .site-footer in style.css) reads as a
+   visible patch where it meets the last zone, for the same reason the
+   zone-to-zone seam did: a second, differently-patterned layer butting
+   up against the first. On the homepage only, let it sit directly on the
+   zone color + the single continuous body::before texture instead. */
+body.home .site-footer {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  position: relative;
+  z-index: 2;
+}
+body.home .scissor-line { border-top-color: rgba(255, 255, 255, 0.3); }
+/* The footer normally sits on --paper (light in light mode, dark in dark
+   mode) so .footer-links a can just use --text-dark for either. Here it
+   sits directly on the permanently-dark zone color instead (see above),
+   so it needs permanently-light text regardless of site theme, same as
+   the rest of this page's zone content (.hint-pill, .team-lead, etc). */
+body.home .footer-links a,
+body.home .footer-note,
+body.home .footer-note a {
+  color: #fff !important;
+}
+body.home .footer-socials a {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff !important;
+}
+body.home .footer-socials a:hover { background: rgba(255, 255, 255, 0.22); }
+
+/* ---------- Hero ---------- */
+
+.hero-card { max-width: 900px; }
+.hero-link { color: #0f4c81; font-weight: bold; }
+:root[data-theme="dark"] .hero-link { color: #7fb2e5; }
+
+.hero-photo {
+  width: 200px; height: 200px; background: #fff; padding: 10px 10px 26px;
+  transform: rotate(-3deg); box-shadow: 0 10px 22px rgba(0, 0, 0, 0.32); flex-shrink: 0; box-sizing: border-box; position: relative;
+}
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; background: #e8e4d8; }
+.hero-photo::after { content: "Jamon"; position: absolute; bottom: 5px; left: 0; right: 0; text-align: center; font-size: 0.85rem; font-family: "Bebas Neue", sans-serif; letter-spacing: 1px; opacity: 0.7; }
+
+.quick-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 44px 0 8px; width: 100%; max-width: 780px; }
+.quick-links .p-btn { min-width: 150px; justify-content: center; }
+
+.hint-pill {
+  display: inline-block; color: #fff !important; background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed rgba(255, 255, 255, 0.5); border-radius: 999px; padding: 8px 18px;
+  font-size: 0.9rem; margin: 26px 0 0; text-align: center;
+}
+.hint-pill a { color: #fff !important; font-weight: bold; }
+
+/* ---------- Section heading used in the Discord zone ---------- */
+
+.zone-sheet { max-width: 780px; }
+.zone-title { font-size: clamp(2rem, 6vw, 2.8rem); margin: 0; text-transform: uppercase; }
+.zone-title .chip { color: #fff !important; padding: 3px 14px; display: inline-block; transform: rotate(-1.5deg); box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.3); }
+.zone--discord .zone-title .chip { background: var(--discord-blurple); }
+
+/* ---------- Scattered notes (perks) — each one its own torn scrap, varied
+   rotation + tear shape, instead of a uniform card grid ---- */
+
+.note-board { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 26px; margin: 40px 0 10px; max-width: 900px; }
+.note {
+  width: 230px; padding: 20px 20px 22px; font-size: 0.93rem; line-height: 1.5;
+  color: var(--text-dark) !important; transition: transform 0.25s ease;
+}
+.note:hover { transform: translateY(-5px) scale(1.02); }
+.note b { display: block; margin-bottom: 6px; font-family: "Bebas Neue", sans-serif; font-size: 1.15rem; letter-spacing: 0.5px; }
+.note .note-icon { width: 26px; height: 26px; margin-bottom: 8px; }
+.note .note-icon svg { width: 100%; height: 100%; }
+.note:nth-child(1) { transform: rotate(-2deg); }
+.note:nth-child(2) { transform: rotate(1.5deg); }
+.note:nth-child(3) { transform: rotate(-1deg); }
+.note:nth-child(1):hover { transform: rotate(-2deg) translateY(-5px) scale(1.03); }
+.note:nth-child(2):hover { transform: rotate(1.5deg) translateY(-5px) scale(1.03); }
+.note:nth-child(3):hover { transform: rotate(-1deg) translateY(-5px) scale(1.03); }
+.note b .note-accent-d { color: var(--discord-blurple-dark) !important; }
+/* Dark-mode contrast fix (same root cause CLAUDE.md's own notes on the
+   zevkev-de repo document): --discord-blurple-dark is deliberately muted,
+   meant for text on --paper's LIGHT-mode cream -- --paper turns near-black
+   in dark mode, and dark navy text against that is nearly unreadable.
+   Swap to the brighter --discord-blurple for dark mode only. */
+:root[data-theme="dark"] .note b .note-accent-d { color: var(--discord-blurple) !important; }
+
+.btn-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 30px; }
+
+.btn-discord::before { background: var(--discord-blurple); }
+.btn-discord { color: #fff !important; }
+.btn-discord:hover { color: #fff !important; }
+
+.btn-ghost-light { color: #fff !important; }
+.btn-ghost-light::before { background: rgba(0, 0, 0, 0.28) !important; border: 2px dashed rgba(255, 255, 255, 0.55); box-shadow: none !important; filter: none !important; }
+.btn-ghost-light:hover { color: #fff !important; }
+.btn-ghost-light:hover::before { background: rgba(0, 0, 0, 0.4) !important; }
+
+.copy-ok { font-size: 0.88rem; color: #fff !important; min-height: 1.2em; margin: 12px 0 0; text-align: center; }
+
+.how-accordion {
+  position: relative;
+  width: 95%; max-width: 780px; box-sizing: border-box; margin-top: 34px;
+  color: var(--text-dark); transform: rotate(0.6deg);
+}
+.how-accordion summary {
+  cursor: pointer; list-style: none; padding: 18px 22px; font-weight: bold; font-size: 1.02rem;
+  display: flex; align-items: center; gap: 12px; user-select: none;
+}
+.how-accordion summary::-webkit-details-marker { display: none; }
+.how-accordion .chev {
+  display: inline-flex; width: 28px; height: 28px; flex-shrink: 0; align-items: center; justify-content: center;
+  background: var(--discord-blurple); color: #fff; border-radius: 50%; font-size: 0.75rem; transition: transform 0.3s;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3);
+}
+.how-accordion[open] .chev { transform: rotate(90deg); }
+.how-accordion ol { margin: 0; padding: 0 22px 22px 50px; line-height: 1.75; font-size: 0.96rem; }
+.how-accordion ol li::marker { color: var(--discord-blurple-dark); font-weight: bold; }
+:root[data-theme="dark"] .how-accordion ol li::marker { color: var(--discord-blurple); }
+
+.team-lead { color: #fff !important; opacity: 0.9; margin: 40px 0 24px; text-align: center; font-family: "Bebas Neue", sans-serif; font-size: 1.4rem; letter-spacing: 1px; text-transform: uppercase; }
+
+.team-avatar-frame {
+  width: 108px; height: 108px; background: #fff; padding: 6px 6px 16px; box-sizing: border-box;
+  box-shadow: 0 6px 14px rgba(0,0,0,.3); margin: 0 auto 4px;
+}
+.team-avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 640px) {
+  .zone { padding: 54px 16px 54px; }
+  .quick-links { margin-top: 34px; }
+  .note-board { gap: 18px; }
+  .note { width: 100%; max-width: 280px; }
+}

@@ -1,0 +1,489 @@
+// Internal moderation panel (/privat/) -- lets ZevKev (and only ZevKev) see
+// every reported comment plus a flat list of every comment site-wide, with a
+// delete button on each. Not linked in the nav/sitemap; see the comment atop
+// privat/index.html for the full access-control picture. A one-time getDocs()
+// per collection on mount, same "minimal reads" reasoning as js/comments.js --
+// this page is opened rarely (by one person), so there's no live listener to
+// justify, but there's also no reason to re-fetch on every little action when
+// local state can just be patched after each write.
+import { auth, db, isOwner, onAuthChange, signOutUser } from "./auth.js";
+import {
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+  deleteDoc,
+  setDoc,
+  getDoc,
+  doc,
+  addDoc,
+  where,
+  serverTimestamp,
+  Timestamp,
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+// Safety cap, not a real pagination limit -- this panel is for a small
+// creator's comment volume, not designed to browse thousands of rows. If
+// this is ever hit it just means "there's more than shown", not a bug.
+const ROW_LIMIT = 300;
+
+let reports = [];
+let comments = [];
+
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+}
+function formatTimestamp(ts) {
+  if (!ts) return "";
+  try {
+    const date = ts instanceof Timestamp ? ts.toDate() : new Date(ts);
+    return new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(date);
+  } catch {
+    return "";
+  }
+}
+function lockIcon() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`;
+}
+function trashIcon() {
+  return `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>`;
+}
+
+// videoId is stored as "video:<id>" or "vod:<id>" (see js/watch.js's
+// mountComments call) -- split back apart into a real link to that page.
+function videoLinkHTML(videoId) {
+  const [type, id] = String(videoId || "").split(":");
+  if ((type === "video" || type === "vod") && id) {
+    return `<a href="/${type}/${id}/" target="_blank" rel="noopener">Zum Video ↗</a>`;
+  }
+  return videoId ? escapeHTML(videoId) : "unbekannt";
+}
+
+function gateHTML(kind) {
+  if (kind === "loggedOut") {
+    return `
+    <div class="empty-state notfound-state">
+      <div class="notfound-icon">${lockIcon()}</div>
+      <h2>Anmeldung erforderlich</h2>
+      <p>Dieser Bereich ist nur für ZevKev.</p>
+      <button type="button" class="p-btn rip btn-accent" id="privat-login-btn">Anmelden</button>
+    </div>`;
+  }
+  return `
+  <div class="empty-state notfound-state">
+    <div class="notfound-icon">${lockIcon()}</div>
+    <h2>Kein Zugriff</h2>
+    <p>Dieser Bereich ist nur für den Website-Betreiber sichtbar.</p>
+    <button type="button" class="p-btn rip" id="privat-switch-btn">Abmelden</button>
+  </div>`;
+}
+
+function reportCardHTML(report, comment) {
+  if (!comment) {
+    return `
+    <div class="comment">
+      <div class="comment-head"><span class="comment-author">Kommentar bereits gelöscht</span><span class="comment-time">${formatTimestamp(report.createdAt)}</span></div>
+      <div class="comment-actions"><button type="button" class="comment-delete-btn" data-dismiss-report="${report.id}">${trashIcon()}Meldung verwerfen</button></div>
+    </div>`;
+  }
+  return `
+  <div class="comment">
+    <div class="comment-head">
+      <span class="comment-author">${escapeHTML(comment.authorName || "Anonym")}</span>
+      <span class="comment-time">${formatTimestamp(comment.createdAt)}</span>
+    </div>
+    <p class="comment-text">${escapeHTML(comment.text)}</p>
+    <p class="privat-report-meta">${videoLinkHTML(comment.videoId)} · Gemeldet ${formatTimestamp(report.createdAt)}</p>
+    <div class="comment-actions">
+      <button type="button" class="comment-delete-btn" data-delete-comment="${comment.id}">${trashIcon()}Kommentar löschen</button>
+      <button type="button" class="comment-reply-btn" data-dismiss-report="${report.id}">Meldung verwerfen</button>
+    </div>
+  </div>`;
+}
+
+function commentCardHTML(c) {
+  return `
+  <div class="comment">
+    <div class="comment-head">
+      <span class="comment-author">${escapeHTML(c.authorName || "Anonym")}</span>
+      <span class="comment-time">${formatTimestamp(c.createdAt)}</span>
+      ${c.parentId ? `<span class="comment-edited-note">Antwort</span>` : ""}
+    </div>
+    <p class="comment-text">${escapeHTML(c.text)}</p>
+    <p class="privat-report-meta">${videoLinkHTML(c.videoId)}</p>
+    <div class="comment-actions">
+      <button type="button" class="comment-delete-btn" data-delete-comment="${c.id}">${trashIcon()}Löschen</button>
+    </div>
+  </div>`;
+}
+
+function render() {
+  const commentsById = new Map(comments.map((c) => [c.id, c]));
+  const reportsList = document.getElementById("privat-reports");
+  const commentsList = document.getElementById("privat-comments");
+  const reportsCount = document.getElementById("privat-reports-count");
+  const commentsCount = document.getElementById("privat-comments-count");
+
+  if (reportsCount) reportsCount.textContent = reports.length ? `(${reports.length})` : "";
+  if (commentsCount) commentsCount.textContent = comments.length ? `(${comments.length})` : "";
+
+  if (reportsList) {
+    reportsList.innerHTML = reports.length
+      ? reports.map((r) => reportCardHTML(r, commentsById.get(r.commentId))).join("")
+      : `<p class="comments-empty">Keine offenen Meldungen.</p>`;
+  }
+  if (commentsList) {
+    commentsList.innerHTML = comments.length
+      ? comments.map((c) => commentCardHTML(c)).join("")
+      : `<p class="comments-empty">Noch keine Kommentare.</p>`;
+  }
+  wireActions();
+}
+
+// Deletes the comment itself plus any reports pointing at it (those would
+// otherwise dangle, permanently showing "Kommentar bereits gelöscht" for no
+// reason) -- covers the case where more than one person reported the same
+// comment.
+async function deleteCommentEverywhere(commentId) {
+  await deleteDoc(doc(db, "comments", commentId));
+  const related = reports.filter((r) => r.commentId === commentId);
+  await Promise.all(related.map((r) => deleteDoc(doc(db, "reports", r.id)).catch(() => {})));
+  comments = comments.filter((c) => c.id !== commentId);
+  reports = reports.filter((r) => r.commentId !== commentId);
+}
+
+function wireActions() {
+  document.querySelectorAll("[data-delete-comment]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      if (!confirm("Kommentar wirklich löschen?")) return;
+      btn.disabled = true;
+      try {
+        await deleteCommentEverywhere(btn.dataset.deleteComment);
+        render();
+      } catch (err) {
+        console.error("Delete comment failed:", err);
+        btn.disabled = false;
+      }
+    });
+  });
+
+  document.querySelectorAll("[data-dismiss-report]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      btn.disabled = true;
+      const id = btn.dataset.dismissReport;
+      try {
+        await deleteDoc(doc(db, "reports", id));
+        reports = reports.filter((r) => r.id !== id);
+        render();
+      } catch (err) {
+        console.error("Dismiss report failed:", err);
+        btn.disabled = false;
+      }
+    });
+  });
+}
+
+async function loadData() {
+  try {
+    const [reportsSnap, commentsSnap] = await Promise.all([
+      getDocs(query(collection(db, "reports"), orderBy("createdAt", "desc"), limit(ROW_LIMIT))),
+      getDocs(query(collection(db, "comments"), orderBy("createdAt", "desc"), limit(ROW_LIMIT))),
+    ]);
+    reports = reportsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    comments = commentsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    render();
+  } catch (err) {
+    console.error("Loading moderation data failed:", err);
+    const commentsList = document.getElementById("privat-comments");
+    if (commentsList) commentsList.innerHTML = `<p class="comments-empty">Konnte nicht geladen werden.</p>`;
+  }
+}
+
+// ---------- Tabs ----------
+function wireTabs() {
+  document.querySelectorAll(".privat-tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".privat-tab").forEach((b) => b.classList.toggle("is-active", b === btn));
+      document.querySelectorAll(".privat-panel").forEach((p) => {
+        p.hidden = p.dataset.panel !== btn.dataset.tab;
+      });
+    });
+  });
+}
+
+// ---------- Users (list, ban, delete-data) ----------
+let users = [];
+
+function userRowHTML(u) {
+  return `
+  <div class="privat-user-row${u.banned ? " is-banned" : ""}">
+    <div class="privat-user-info">
+      <a href="/profil/?u=${encodeURIComponent(u.displayName || "")}" target="_blank" rel="noopener">${escapeHTML(u.displayName || "(kein Name)")}</a>
+      <span class="privat-user-email">${escapeHTML(u.email || u.id)}</span>
+      ${u.banned ? `<span class="privat-user-badge">Gesperrt</span>` : ""}
+    </div>
+    <div class="privat-user-actions">
+      <button type="button" class="p-btn rip" data-toggle-ban="${u.id}">${u.banned ? "Entsperren" : "Sperren"}</button>
+      <button type="button" class="p-btn rip privat-danger-btn" data-delete-user="${u.id}">Löschen</button>
+    </div>
+  </div>`;
+}
+
+function renderUsers() {
+  const list = document.getElementById("privat-users");
+  const countEl = document.getElementById("privat-users-count");
+  if (!list) return;
+  if (countEl) countEl.textContent = users.length ? `(${users.length})` : "";
+  list.innerHTML = users.length ? users.map(userRowHTML).join("") : `<p class="comments-empty">Keine Nutzer gefunden.</p>`;
+
+  list.querySelectorAll("[data-toggle-ban]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.toggleBan;
+      const u = users.find((x) => x.id === id);
+      if (!u) return;
+      btn.disabled = true;
+      try {
+        await setDoc(doc(db, "users", id), { banned: !u.banned }, { merge: true });
+        u.banned = !u.banned;
+        renderUsers();
+      } catch (err) {
+        console.error("Toggling ban failed:", err);
+        btn.disabled = false;
+      }
+    });
+  });
+  list.querySelectorAll("[data-delete-user]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.deleteUser;
+      const u = users.find((x) => x.id === id);
+      if (!u) return;
+      if (!confirm(`Kommentare, Username und Kontodaten von "${u.displayName || u.email}" wirklich dauerhaft löschen? Der Firebase-Login selbst bleibt bestehen (technisch nur vom Nutzer selbst löschbar).`)) return;
+      btn.disabled = true;
+      try {
+        await deleteUserData(id, u.displayName);
+        users = users.filter((x) => x.id !== id);
+        renderUsers();
+      } catch (err) {
+        console.error("Deleting user data failed:", err);
+        btn.disabled = false;
+      }
+    });
+  });
+}
+
+// Mirrors js/auth.js's own deleteAccount(), just triggered by the owner
+// for a different uid instead of self-service -- same three collections,
+// same reasoning (comments first, then the name reservation, then the
+// private doc). Cannot touch the Firebase Auth credential itself; see the
+// confirm() message above and the hint text in privat/index.html.
+async function deleteUserData(uid, displayName) {
+  const ownComments = await getDocs(query(collection(db, "comments"), where("authorId", "==", uid))).catch(() => null);
+  if (ownComments) await Promise.all(ownComments.docs.map((d) => deleteDoc(d.ref).catch(() => {})));
+  const normalized = String(displayName || "").trim().toLowerCase();
+  if (normalized) await deleteDoc(doc(db, "usernames", normalized)).catch(() => {});
+  await deleteDoc(doc(db, "profiles", uid)).catch(() => {});
+  await deleteDoc(doc(db, "users", uid)).catch(() => {});
+}
+
+async function loadUsers() {
+  try {
+    const snap = await getDocs(collection(db, "users"));
+    users = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    renderUsers();
+  } catch (err) {
+    console.error("Loading users failed:", err);
+    const list = document.getElementById("privat-users");
+    if (list) list.innerHTML = `<p class="comments-empty">Konnte nicht geladen werden.</p>`;
+  }
+}
+
+// ---------- Banned words ----------
+let bannedWords = [];
+
+function wordChipHTML(word) {
+  return `<span class="privat-word-chip">${escapeHTML(word)}<button type="button" data-remove-word="${escapeHTML(word)}" aria-label="${escapeHTML(word)} entfernen">&times;</button></span>`;
+}
+
+function renderWords() {
+  const el = document.getElementById("privat-words");
+  if (!el) return;
+  el.innerHTML = bannedWords.length
+    ? `<div class="privat-word-list">${bannedWords.map(wordChipHTML).join("")}</div>`
+    : `<p class="comments-empty">Keine gesperrten Wörter.</p>`;
+  el.querySelectorAll("[data-remove-word]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      bannedWords = bannedWords.filter((w) => w !== btn.dataset.removeWord);
+      renderWords();
+      await saveWords();
+    });
+  });
+}
+
+async function saveWords() {
+  await setDoc(doc(db, "settings", "moderation"), { bannedWords }, { merge: true }).catch((err) =>
+    console.error("Saving banned words failed:", err)
+  );
+}
+
+async function loadWords() {
+  try {
+    const snap = await getDoc(doc(db, "settings", "moderation"));
+    bannedWords = snap.exists() ? snap.data().bannedWords || [] : [];
+    renderWords();
+  } catch (err) {
+    console.error("Loading banned words failed:", err);
+  }
+}
+
+function wireWordForm() {
+  document.getElementById("privat-word-form")?.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const input = document.getElementById("privat-word-input");
+    const word = input.value.trim().toLowerCase();
+    input.value = "";
+    if (!word || bannedWords.includes(word)) return;
+    bannedWords.push(word);
+    renderWords();
+    await saveWords();
+  });
+}
+
+// No Twitch-visibility settings tab on this site -- Jamon's site has no
+// Twitch content at all (see zevkev-de's js/privat.js for that feature,
+// dropped here entirely rather than ported unused).
+
+// ---------- Campaigns / promo codes ----------
+let campaigns = [];
+
+function campaignRowHTML(c) {
+  const active = c.published && !c.endedEarly;
+  return `
+  <div class="privat-campaign-row">
+    <div class="privat-campaign-info">
+      <strong>${escapeHTML(c.code)}</strong> — ${escapeHTML(c.description)}
+      <span class="privat-campaign-dates">${escapeHTML(c.startDate)} bis ${escapeHTML(c.endDate)}</span>
+      ${c.endedEarly ? `<span class="privat-campaign-status">Vorzeitig beendet</span>` : active ? `<span class="privat-campaign-status is-live">Läuft</span>` : ""}
+    </div>
+    ${!c.endedEarly ? `<button type="button" class="p-btn rip privat-danger-btn" data-end-campaign="${c.id}">Vorzeitig beenden</button>` : ""}
+  </div>`;
+}
+
+function renderCampaigns() {
+  const el = document.getElementById("privat-campaigns");
+  if (!el) return;
+  el.innerHTML = campaigns.length ? campaigns.map(campaignRowHTML).join("") : `<p class="comments-empty">Noch keine Aktionen.</p>`;
+  el.querySelectorAll("[data-end-campaign]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.endCampaign;
+      btn.disabled = true;
+      try {
+        await setDoc(doc(db, "campaigns", id), { endedEarly: true }, { merge: true });
+        const c = campaigns.find((x) => x.id === id);
+        if (c) c.endedEarly = true;
+        renderCampaigns();
+      } catch (err) {
+        console.error("Ending campaign failed:", err);
+        btn.disabled = false;
+      }
+    });
+  });
+}
+
+// campaigns is a SHARED Firestore collection with zevkev-de (same Firebase
+// project) -- without a site filter, a promo code created here would also
+// show on ZevKev's shop and vice versa (different Fourthwall stores, a
+// code from one is likely invalid on the other). Every doc this page reads
+// or writes is scoped to SITE.
+const SITE = "jamon";
+
+async function loadCampaigns() {
+  try {
+    // Filtered client-side, not via a Firestore where("site",...) clause
+    // combined with the orderBy below -- that combination needs a manual
+    // composite index in the Firebase Console; simpler to just filter the
+    // (expected-small) result set in JS, same approach zevkev-de's copy of
+    // this file uses for backward-compat with pre-site-field campaigns.
+    const snap = await getDocs(query(collection(db, "campaigns"), orderBy("createdAt", "desc"), limit(50)));
+    campaigns = snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((c) => c.site === SITE);
+    renderCampaigns();
+  } catch (err) {
+    console.error("Loading campaigns failed:", err);
+  }
+}
+
+function wireCampaignForm() {
+  document.getElementById("privat-campaign-form")?.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const code = document.getElementById("privat-campaign-code").value.trim();
+    const description = document.getElementById("privat-campaign-desc").value.trim();
+    const startDate = document.getElementById("privat-campaign-start").value;
+    const endDate = document.getElementById("privat-campaign-end").value;
+    if (!code || !description || !startDate || !endDate) return;
+    const submitBtn = ev.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    try {
+      const ref = await addDoc(collection(db, "campaigns"), {
+        code,
+        description,
+        startDate,
+        endDate,
+        published: true,
+        endedEarly: false,
+        site: SITE,
+        createdAt: serverTimestamp(),
+      });
+      campaigns.unshift({ id: ref.id, code, description, startDate, endDate, published: true, endedEarly: false, site: SITE, createdAt: Date.now() });
+      renderCampaigns();
+      ev.target.reset();
+    } catch (err) {
+      console.error("Creating campaign failed:", err);
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+}
+
+function showGate(kind) {
+  document.getElementById("privat-app").style.display = "none";
+  const gate = document.getElementById("privat-gate");
+  gate.innerHTML = gateHTML(kind);
+  gate.querySelector("#privat-login-btn")?.addEventListener("click", async () => {
+    const { openAuthModal } = await import("./auth-ui.js");
+    openAuthModal();
+  });
+  gate.querySelector("#privat-switch-btn")?.addEventListener("click", () => signOutUser());
+}
+
+let loadedForUid = null;
+
+onAuthChange((user) => {
+  if (!user) {
+    loadedForUid = null;
+    showGate("loggedOut");
+    return;
+  }
+  if (!isOwner(user)) {
+    loadedForUid = null;
+    showGate("notOwner");
+    return;
+  }
+
+  document.getElementById("privat-gate").innerHTML = "";
+  document.getElementById("privat-app").style.display = "";
+  const userEl = document.getElementById("privat-user");
+  if (userEl) userEl.textContent = `Angemeldet als ${user.displayName || user.email}`;
+
+  if (loadedForUid !== user.uid) {
+    loadedForUid = user.uid;
+    loadData();
+    loadUsers();
+    loadWords();
+    loadCampaigns();
+  }
+});
+
+document.getElementById("privat-logout-btn")?.addEventListener("click", () => signOutUser());
+wireTabs();
+wireWordForm();
+wireCampaignForm();
