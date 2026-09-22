@@ -116,28 +116,37 @@
 
 /* Same starfield-mat recipe as .rip--photo::before in style.css (used by
    the product detail page's main photo) — kept in sync so the grid
-   thumbnails and the enlarged view read as the same material. Space theme
-   fitting the JAMON logo's own orbit-ring/sparkle motif and the merch
-   designs, not zevkev.de's cork board -- see style.css's own comment on
-   .rip--photo::before for why plain radial-gradient dots replace what used
-   to be an SVG feTurbulence grain filter here. */
+   thumbnails and the enlarged view read as the same material. See that
+   file's own comment on .rip--photo::before for the full breakdown
+   (paper-fiber crosshatch + stars + hero-star glow + nebula wash + per-
+   frame vignette) and why the star/crosshatch/nebula layers use
+   background-attachment: fixed for a scroll-parallax effect -- same
+   technique home.css's own zone texture already uses. */
 .product-photo-frame {
   padding: 14px;
   margin-bottom: 14px;
   position: relative;
   background-color: var(--photo-mat);
   background-image:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 54px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 54px),
     radial-gradient(1.6px 1.6px at 18px 24px, rgba(255,255,255,.95), transparent),
-    radial-gradient(1px 1px at 52px 68px, rgba(255,255,255,.6), transparent),
-    radial-gradient(1.4px 1.4px at 94px 18px, rgba(255,255,255,.85), transparent),
-    radial-gradient(1px 1px at 130px 96px, rgba(255,255,255,.5), transparent),
-    radial-gradient(1.6px 1.6px at 168px 40px, rgba(255,255,255,.9), transparent),
-    radial-gradient(1px 1px at 24px 130px, rgba(255,255,255,.45), transparent),
-    radial-gradient(1.4px 1.4px at 190px 150px, rgba(255,255,255,.75), transparent),
-    radial-gradient(1px 1px at 70px 160px, rgba(255,255,255,.55), transparent),
-    radial-gradient(1.3px 1.3px at 150px 190px, rgba(255,255,255,.7), transparent),
+    radial-gradient(1px 1px at 52px 68px, rgba(255,255,255,.55), transparent),
+    radial-gradient(1.4px 1.4px at 94px 18px, rgba(255,255,255,.8), transparent),
+    radial-gradient(1px 1px at 130px 96px, rgba(255,255,255,.45), transparent),
+    radial-gradient(1.6px 1.6px at 168px 40px, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 24px 130px, rgba(255,255,255,.4), transparent),
+    radial-gradient(1.4px 1.4px at 190px 150px, rgba(255,255,255,.7), transparent),
+    radial-gradient(1px 1px at 70px 160px, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.3px 1.3px at 150px 190px, rgba(255,255,255,.65), transparent),
+    radial-gradient(2.2px 2.2px at 110px 130px, #fff, transparent 60%),
+    radial-gradient(7px 7px at 110px 130px, rgba(255,255,255,.22), transparent 70%),
+    radial-gradient(2px 2px at 40px 90px, #fff, transparent 60%),
+    radial-gradient(6px 6px at 40px 90px, rgba(255,255,255,.18), transparent 70%),
+    radial-gradient(ellipse 160px 120px at 75% 20%, rgba(78,159,61,.16), transparent 70%),
     radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.35) 100%);
-  background-size: 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%;
+  background-size: 54px 54px, 54px 54px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%;
+  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, scroll;
   box-shadow: inset 0 0 8px rgba(0,0,0,.25), inset 0 0 0 1px rgba(0,0,0,.2);
   /* Chipped/irregular edge instead of a stark rectangle -- reuses the same
      --tear-b polygon the rest of the site's .rip cards already cut their
