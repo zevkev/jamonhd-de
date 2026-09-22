@@ -25,13 +25,12 @@ jobs:
           node-version: 22
 
       - name: Fetch YouTube main channel feed
-        # continue-on-error so a not-yet-configured (or quota-exhausted)
-        # YOUTUBE_API_KEY never blocks the commit step below. See the setup
-        # comment atop scripts/fetch-main-feed.mjs for how to create/add
-        # that secret.
+        # Public RSS feed, no API key needed -- see the header comment in
+        # scripts/fetch-main-feed.mjs for the tradeoff this makes (capped at
+        # the channel's ~15 most recent uploads, no full history). Still
+        # continue-on-error so a transient feed hiccup never blocks the
+        # commit step below.
         continue-on-error: true
-        env:
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: node scripts/fetch-main-feed.mjs
 
       - name: Commit changes if any
