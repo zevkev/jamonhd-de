@@ -1,4 +1,4 @@
-// Fetches the FULL upload history for the main channel (@ZevKev) via the
+// Fetches the FULL upload history for the main channel (@jamon_hd) via the
 // YouTube Data API v3 and writes assets/data/main-videos.json in the exact
 // same shape the previous RSS-based version produced — js/youtube.js reads
 // that shape, not how it was gathered, so nothing there needed to change.
