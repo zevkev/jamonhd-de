@@ -1,13 +1,17 @@
 /* Homepage-only: the "scroll story" bio page — colour zones that wash into
    each other, instead of the neutral cutting-mat used on the rest of the
    site. Deliberately a different composition from zevkev.de's own homepage
-   (side-by-side bio card + flat pill nav + a huge standalone Discord zone +
-   equal-weight team cards) rather than the same layout in green: a centered
-   "pinned photo" hero with no card background, a staggered tile grid that
-   folds Shop/YouTube/Discord into one section instead of a pill row plus a
-   separate zone, and a compact team badge strip instead of three big cards.
-   This site has no Twitch content at all, so there's only ever these two
-   zones -- no third toggleable zone the way zevkev.de's page has. */
+   (single side-by-side photo+text card, then a flat pill nav, then a huge
+   standalone Discord zone) rather than the same layout in green: a pinned
+   circular photo stacked above its own bio card, proper labelled button
+   pills for socials instead of plain icon dots, and Shop/YouTube/Discord
+   folded into one staggered tile grid instead of a pill row plus a separate
+   zone. Team credits are still full cards (photo, role, link) -- same kind
+   of content as zevkev.de's team section, since that's inherently a shared
+   piece of both sites, just laid out with this page's own tile-grid stagger
+   language instead of a copy of the other page's card treatment. This site
+   has no Twitch content at all, so there's only ever these two zones -- no
+   third toggleable zone the way zevkev.de's page has. */
 
 body.home { background-color: var(--zone-discord); background-image: none; position: relative; }
 
@@ -58,37 +62,37 @@ body.home .footer-socials a {
 }
 body.home .footer-socials a:hover { background: rgba(255, 255, 255, 0.22); }
 
-/* ---------- Hero: a pinned photo + stamped title, centered on the mat --
-   no card background at all, unlike zevkev.de's side-by-side bio card. ---------- */
+/* ---------- Hero: a pinned photo stacked above its own bio card, instead
+   of zevkev.de's single side-by-side photo+text card. ---------- */
 
 .hero-portrait {
   width: 172px; height: 172px; border-radius: 50%; background: #fff; padding: 8px;
   box-sizing: border-box; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-  transform: rotate(-3deg); position: relative; margin-bottom: 22px;
+  transform: rotate(-3deg); position: relative; z-index: 2; margin-bottom: -34px;
   overflow: visible;
 }
 .hero-portrait img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; background: #e8e4d8; }
 .hero-portrait .tape { top: -16px; left: 50%; transform: translateX(-50%) rotate(-4deg); }
 
-.hero-stamp {
-  font-size: clamp(3rem, 11vw, 5rem); line-height: 0.95; margin: 0 0 18px;
-  text-transform: uppercase; color: #fff; text-align: center;
-  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.18);
+/* The photo overlaps the card's top edge (negative margin above, extra
+   top-padding here) so it reads as pinned onto the note, not just stacked
+   above it. */
+.hero-card {
+  max-width: 620px; padding: 56px 38px 34px; text-align: center;
 }
+.hero-card h1 {
+  font-size: clamp(2.4rem, 7vw, 3.4rem); margin: 0 0 14px; text-transform: uppercase;
+  color: var(--text-dark) !important;
+}
+.hero-card p {
+  color: var(--text-dark) !important; text-align: center;
+  font-size: clamp(1rem, 2.4vw, 1.1rem); line-height: 1.65; margin: 10px 0;
+}
+.hero-link { color: #0f4c81; font-weight: bold; }
+:root[data-theme="dark"] .hero-link { color: #7fb2e5; }
 
-.hero-tagline {
-  max-width: 560px; text-align: center; color: #fff; opacity: 0.94;
-  font-size: clamp(1rem, 2.4vw, 1.12rem); line-height: 1.65; margin: 0 0 30px;
-}
-
-.hero-socials { display: flex; gap: 14px; margin-bottom: 34px; }
-.social-dot {
-  width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  background: rgba(255, 255, 255, 0.16); border: 2px solid rgba(255, 255, 255, 0.4); color: #fff;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease;
-}
-.social-dot svg { width: 20px; height: 20px; }
-.social-dot:hover { transform: scale(1.12) rotate(-6deg); background: rgba(255, 255, 255, 0.28); }
+.hero-socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 30px 0 34px; }
+.social-btn { min-width: 132px; justify-content: center; }
 
 .hero-cta { font-size: 1.05rem; padding: 16px 34px; }
 
@@ -165,31 +169,22 @@ body.home .footer-socials a:hover { background: rgba(255, 255, 255, 0.22); }
 .how-accordion ol li::marker { color: var(--discord-blurple-dark); font-weight: bold; }
 :root[data-theme="dark"] .how-accordion ol li::marker { color: var(--discord-blurple); }
 
-/* ---------- Team: a compact horizontal badge strip instead of three
-   equal-weight photo cards -- de-emphasized, since this is Jamon's own
-   homepage rather than a neutral team-hub page. ---------- */
+/* ---------- Team: full cards (photo, role, link) -- same content as
+   zevkev.de's team section, just laid out with this page's own tile-grid
+   stagger language (.c-grid/.c-card/.tilt-* are already shared, unscoped
+   classes from style.css). ---------- */
 
-.team-lead { color: #fff !important; opacity: 0.9; margin: 46px 0 20px; text-align: center; font-family: "Bebas Neue", sans-serif; font-size: 1.4rem; letter-spacing: 1px; text-transform: uppercase; }
+.team-lead { color: #fff !important; opacity: 0.9; margin: 46px 0 24px; text-align: center; font-family: "Bebas Neue", sans-serif; font-size: 1.4rem; letter-spacing: 1px; text-transform: uppercase; }
 
-.team-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
-.team-badge {
-  display: flex; align-items: center; gap: 10px; padding: 8px 18px 8px 8px;
-  background: rgba(255, 255, 255, 0.12); border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 999px; text-decoration: none; color: #fff !important;
-  transition: transform 0.2s ease, background 0.2s ease;
+.team-avatar-frame {
+  width: 108px; height: 108px; background: #fff; padding: 6px 6px 16px; box-sizing: border-box;
+  box-shadow: 0 6px 14px rgba(0,0,0,.3); margin: 0 auto 4px;
 }
-.team-badge:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.2); }
-.team-badge--self { background: rgba(255, 255, 255, 0.22); border-color: rgba(255, 255, 255, 0.55); }
-.team-badge-avatar {
-  width: 38px; height: 38px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
-  border: 2px solid #fff; display: block;
-}
-.team-badge-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.team-badge-name { font-weight: bold; font-size: 0.94rem; }
+.team-avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
 
 @media (max-width: 640px) {
   .zone { padding: 54px 16px 54px; }
-  .hero-portrait { width: 140px; height: 140px; }
+  .hero-portrait { width: 140px; height: 140px; margin-bottom: -28px; }
+  .hero-card { padding: 48px 24px 30px; }
   .tile-grid { gap: 28px; }
-  .team-strip { gap: 10px; }
 }
