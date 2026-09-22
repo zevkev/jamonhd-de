@@ -3,17 +3,30 @@
 /* One paper card for the whole header block (title, description, shipping
    note, and -- when active -- the campaign banner as an inset strip inside
    it) instead of separate plain-text-on-mat lines next to a standalone
-   floating banner card. */
+   floating banner card. Icon badge + tape give it the same "pinned note"
+   identity as the homepage's own hero card, rather than zevkev.de's plain
+   text-only version of this same card. */
 .hero-shop {
   text-align: center;
   max-width: 760px;
   width: 95%;
   margin: 18px auto 30px;
-  padding: 38px clamp(20px, 5vw, 48px) 34px;
+  padding: 42px clamp(20px, 5vw, 48px) 34px;
+  position: relative;
 }
+.hero-shop-icon {
+  width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: var(--paper-accent); color: var(--text-dark); margin: 0 auto 14px;
+}
+.hero-shop-icon svg { width: 26px; height: 26px; }
 .hero-shop h1 { font-size: 2.4rem; margin: 0 0 10px; color: var(--text-dark); }
 .hero-shop p { font-size: 1.15rem; color: var(--text-dark); }
 .hero-shop .shop-shipping-note { font-size: 0.85rem; margin-top: 6px; color: var(--text-muted); }
+
+.shop-filter-eyebrow {
+  color: #fff; opacity: 0.85; text-align: center; margin: 14px 0 0;
+  font-family: "Bebas Neue", sans-serif; font-size: 1.1rem; letter-spacing: 1.5px; text-transform: uppercase;
+}
 
 /* Inset highlight strip, not a second torn-paper card nested inside the
    first (two stacked .rip shapes would clip against each other) -- same
