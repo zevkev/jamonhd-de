@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  This page's whole job is to send visitors on to jamonhd.de/shop, the real
+  shop page. The instant meta-refresh/JS redirect below does that for
+  everyone with a normal browser; everything in <body> only exists as the
+  fallback for the rare case that fails (redirect blocked, JS off, crawler
+  that doesn't follow meta-refresh) -- a plain linktree-style button stack,
+  no card/avatar chrome.
+-->
+<meta http-equiv="refresh" content="0; url=https://jamonhd.de/shop">
+<link rel="canonical" href="https://jamonhd.de/shop">
+<meta name="robots" content="noindex, follow">
+<title>Jamon Shop</title>
+<meta name="description" content="Jamon Merch. Der Shop ist jetzt unter jamonhd.de/shop.">
+
+<link rel="icon" type="image/png" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<link rel="apple-touch-icon" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jamon Shop">
+<meta property="og:description" content="Jamon Merch. Der Shop ist jetzt unter jamonhd.de/shop.">
+<meta property="og:image" content="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<meta property="og:url" content="https://jamonhd.de/shop">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+
+<script>location.replace("https://jamonhd.de/shop");</script>
+
+<style>
+  :root {
+    --mat: #4E9F3D;
+    --paper: #fcfbf5;
+    --text-dark: #1a1a1a;
+    --text-muted: #4a4a40;
+    --accent-red: #c0392b;
+    --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background-color: var(--mat);
+    background-image:
+      radial-gradient(rgba(255,255,255,.08) 1.5px, transparent 1.5px);
+    background-size: 26px 26px;
+    padding: 48px 20px;
+    font-family: "Trebuchet MS", "Futura", Arial, sans-serif;
+  }
+  .wrap { width: 100%; max-width: 380px; text-align: center; }
+  h1 {
+    font-family: "Bebas Neue", "Futura", sans-serif;
+    font-size: 2.4rem; letter-spacing: 0.5px; margin: 0 0 6px;
+    color: #fff;
+  }
+  .tagline {
+    margin: 0 0 30px; color: rgba(255,255,255,.85);
+    line-height: 1.5; font-size: 0.95rem;
+  }
+
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 15px 20px; margin-bottom: 14px;
+    border-radius: 999px; font-weight: bold; text-decoration: none;
+    font-size: 0.98rem; box-shadow: var(--shadow-soft);
+    transition: transform 0.15s ease;
+  }
+  .btn:hover { transform: scale(1.02); }
+  .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  .btn-primary {
+    background: var(--paper); color: var(--text-dark);
+    font-size: 1.05rem; padding: 17px 20px;
+  }
+  .btn-secondary {
+    background: rgba(255,255,255,.14); color: #fff;
+    border: 2px solid rgba(255,255,255,.35);
+  }
+
+  footer {
+    margin-top: 26px; font-size: 0.78rem; color: rgba(255,255,255,.7);
+  }
+  footer a { color: rgba(255,255,255,.85); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Jamon</h1>
+    <p class="tagline">Der Shop ist umgezogen.<br>Alles Aktuelle gibt's jetzt direkt auf der Website.</p>
+
+    <a class="btn btn-primary" href="https://jamonhd.de/shop">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 8H6"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+      Zum Shop: jamonhd.de/shop
+    </a>
+
+    <a class="btn btn-secondary" href="https://jamonhd.de/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+      Zur Website
+    </a>
+
+    <a class="btn btn-secondary" href="https://www.youtube.com/@jamon_hd" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="#c0392b"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      YouTube
+    </a>
+
+    <a class="btn btn-secondary" href="https://www.instagram.com/jamononinsta/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      Instagram
+    </a>
+
+    <a class="btn btn-secondary" href="https://www.tiktok.com/@jamon_tiktok" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+      TikTok
+    </a>
+
+    <a class="btn btn-secondary" href="https://discord.com/invite/psW4NgjBFN" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+      Discord
+    </a>
+
+    <footer>
+      <a href="https://jamonhd.de/impressum/">Impressum</a> &middot;
+      <a href="https://jamonhd.de/datenschutz/">Datenschutz</a> &middot;
+      <a href="https://jamonhd.de/kontakt/">Kontakt</a>
+    </footer>
+  </div>
+</body>
+</html>
