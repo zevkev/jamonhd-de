@@ -13,7 +13,7 @@ import { track } from "./track.js";
 const root = document.getElementById("product-root");
 
 // GitHub Pages has no server-side rewrites/routing config, so clean product
-// URLs (zevkev.de/shop/<slug>) are served via the repo root's 404.html,
+// URLs (jamonhd.de/shop/<slug>) are served via the repo root's 404.html,
 // which GitHub Pages serves for ANY unmatched path site-wide. 404.html is
 // structurally identical to this page (loads this same script) — it just
 // has no ?slug= query string, since the slug there is the URL path itself.

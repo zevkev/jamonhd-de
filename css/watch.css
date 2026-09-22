@@ -1,7 +1,18 @@
-/* Single video/VOD page (js/watch.js) -- one column: player, meta, then
-   js/comments.js's section below. Reuses .player-wrap (vods.css) for the
-   player itself and .qv-panel chrome indirectly via comments/auth, nothing
-   shop-specific needed beyond that shared base. */
+/* Single video page (js/watch.js) -- one column: player, meta, then
+   js/comments.js's section below, plus .qv-panel chrome indirectly via
+   comments/auth.
+   Real bug, caught in a full-site audit: .player-wrap's own base rule
+   (background, padding, and critically the `iframe { width/height: 100% }`
+   sizing) used to live in zevkev.de's vods.css -- correctly dropped here
+   since this site has no Twitch content, but .player-wrap itself is also
+   the generic video-embed wrapper this page's own YouTube player uses, so
+   dropping that file silently left the iframe with no sizing rule at all.
+   It rendered at the browser's bare default replaced-element size
+   (300x150) instead of filling its container. Restored here, page-scoped,
+   since this is the only page that still uses the class. */
+.player-wrap { background: #000; padding: 8px; box-sizing: border-box; }
+.player-wrap iframe { width: 100%; height: 100%; border: 0; }
+.player-wrap--youtube { box-shadow: inset 0 0 0 3px var(--accent-red); }
 
 .watch-page { width: 100%; max-width: 900px; margin-bottom: 24px; }
 
