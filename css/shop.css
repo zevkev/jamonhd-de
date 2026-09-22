@@ -3,9 +3,9 @@
 /* One paper card for the whole header block (title, description, shipping
    note, and -- when active -- the campaign banner as an inset strip inside
    it) instead of separate plain-text-on-mat lines next to a standalone
-   floating banner card. Icon badge + tape give it the same "pinned note"
-   identity as the homepage's own hero card, rather than zevkev.de's plain
-   text-only version of this same card. */
+   floating banner card. Rocket icon + sparkle accents echo the JAMON logo's
+   own orbit-ring/sparkle motif, rather than zevkev.de's plain text-only
+   version of this same card. */
 .hero-shop {
   text-align: center;
   max-width: 760px;
@@ -22,6 +22,15 @@
 .hero-shop h1 { font-size: 2.4rem; margin: 0 0 10px; color: var(--text-dark); }
 .hero-shop p { font-size: 1.15rem; color: var(--text-dark); }
 .hero-shop .shop-shipping-note { font-size: 0.85rem; margin-top: 6px; color: var(--text-muted); }
+
+.hero-shop-sparkle {
+  position: absolute;
+  width: 22px; height: 22px;
+  color: var(--accent-2);
+  pointer-events: none;
+}
+.hero-shop-sparkle--a { top: 22px; left: 8%; transform: rotate(-12deg); }
+.hero-shop-sparkle--b { bottom: 18px; right: 10%; width: 16px; height: 16px; transform: rotate(18deg); }
 
 .shop-filter-eyebrow {
   color: #fff; opacity: 0.85; text-align: center; margin: 14px 0 0;
@@ -105,41 +114,37 @@
 .product-card:hover { transform: rotate(0deg) scale(1.035) translateY(-6px) !important; }
 .product-card:hover::before { box-shadow: var(--shadow-hover); }
 
-/* Same cork-mat recipe as .rip--photo::before in style.css (used by the
-   quick-view's main photo) — kept in sync so the grid thumbnails and the
-   enlarged view read as the same material.
-   The grain is an SVG feTurbulence noise filter, not stacked gradients —
-   gradients tile in an obviously regular grid at this scale, where fractal
-   noise reads as genuine material grain. stitchTiles="stitch" makes it wrap
-   seamlessly at the tile edge, but only once the filter's own region is
-   pinned to exactly the tile size (x/y/width/height + userSpaceOnUse on
-   both <filter> and <feTurbulence>) — left at SVG's default ~120%-expanded
-   region, the noise doesn't actually align at the background-size boundary,
-   which showed up as a visible seam down the middle of every photo.
-   Kept deliberately low-contrast and fine-grained (high baseFrequency, low
-   numOctaves, a gentle linear contrast curve, soft-light not overlay) —
-   an earlier, punchier version read as blobby ("melted cheese") or
-   harshly rough ("turbulence" noise at coarser frequency) rather than the
-   smooth, even, understated grain real cork actually has. */
+/* Same starfield-mat recipe as .rip--photo::before in style.css (used by
+   the product detail page's main photo) — kept in sync so the grid
+   thumbnails and the enlarged view read as the same material. Space theme
+   fitting the JAMON logo's own orbit-ring/sparkle motif and the merch
+   designs, not zevkev.de's cork board -- see style.css's own comment on
+   .rip--photo::before for why plain radial-gradient dots replace what used
+   to be an SVG feTurbulence grain filter here. */
 .product-photo-frame {
   padding: 14px;
   margin-bottom: 14px;
   position: relative;
   background-color: var(--photo-mat);
   background-image:
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22220%22%20height%3D%22220%22%3E%3Cfilter%20id%3D%22n%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22220%22%20height%3D%22220%22%20filterUnits%3D%22userSpaceOnUse%22%20primitiveUnits%3D%22userSpaceOnUse%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.22%200.26%22%20numOctaves%3D%222%22%20seed%3D%227%22%20stitchTiles%3D%22stitch%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22220%22%20height%3D%22220%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220.33%200.33%200.33%200%200%200.33%200.33%200.33%200%200%200.33%200.33%200.33%200%200%200%200%200%200%201%22%2F%3E%3CfeComponentTransfer%3E%3CfeFuncR%20type%3D%22linear%22%20slope%3D%220.9%22%20intercept%3D%220.05%22%2F%3E%3CfeFuncG%20type%3D%22linear%22%20slope%3D%220.9%22%20intercept%3D%220.05%22%2F%3E%3CfeFuncB%20type%3D%22linear%22%20slope%3D%220.9%22%20intercept%3D%220.05%22%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3Crect%20width%3D%22220%22%20height%3D%22220%22%20filter%3D%22url(%23n)%22%2F%3E%3C%2Fsvg%3E"),
-    radial-gradient(ellipse at center, transparent 65%, rgba(0,0,0,.1) 100%);
-  background-size: 220px 220px, 100% 100%;
-  background-blend-mode: soft-light, multiply;
-  box-shadow: inset 0 0 8px rgba(0,0,0,.12), inset 0 0 0 1px rgba(0,0,0,.12);
+    radial-gradient(1.6px 1.6px at 18px 24px, rgba(255,255,255,.95), transparent),
+    radial-gradient(1px 1px at 52px 68px, rgba(255,255,255,.6), transparent),
+    radial-gradient(1.4px 1.4px at 94px 18px, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 130px 96px, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.6px 1.6px at 168px 40px, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 24px 130px, rgba(255,255,255,.45), transparent),
+    radial-gradient(1.4px 1.4px at 190px 150px, rgba(255,255,255,.75), transparent),
+    radial-gradient(1px 1px at 70px 160px, rgba(255,255,255,.55), transparent),
+    radial-gradient(1.3px 1.3px at 150px 190px, rgba(255,255,255,.7), transparent),
+    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.35) 100%);
+  background-size: 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%;
+  box-shadow: inset 0 0 8px rgba(0,0,0,.25), inset 0 0 0 1px rgba(0,0,0,.2);
   /* Chipped/irregular edge instead of a stark rectangle -- reuses the same
      --tear-b polygon the rest of the site's .rip cards already cut their
      torn-paper silhouette with (style.css), just applied to this mat
-     instead of inventing a new shape. NOT a change to the grain recipe
-     above (still the exact same feTurbulence texture the CLAUDE.md note on
-     this block warns not to re-litigate) -- purely an outline change. The
-     14px padding keeps the shallow (a few percent) edge undulations from
-     ever clipping into the actual product photo sitting inside it. */
+     instead of inventing a new shape. The 14px padding keeps the shallow
+     (a few percent) edge undulations from ever clipping into the actual
+     product photo sitting inside it. */
   clip-path: var(--tear-b);
 }
 .product-photo-frame img { width: 100%; aspect-ratio: 1 / 1; object-fit: contain; transition: transform 0.5s ease, opacity 0.35s ease; cursor: zoom-in; }
@@ -204,43 +209,57 @@
 .product-card h3 { margin: 0 0 6px; font-size: 1.05rem; color: var(--text-dark); line-height: 1.3; }
 
 .price-row { display: flex; align-items: center; gap: 8px; margin-top: auto; }
+/* Gold "star tag" instead of zevkev.de's plain paper-accent rectangle --
+   the small sparkle glyph before the price echoes the JAMON logo's own
+   sparkle accents. --accent-2 is this site's warm-gold accent token
+   already (style.css), reused here rather than inventing a new color. */
 .price-tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-weight: bold;
-  color: var(--text-dark);
-  background: var(--paper-accent);
+  color: #0a0f22;
+  background: var(--accent-2);
   padding: 4px 12px;
   border-radius: 3px;
   transform: rotate(-2deg);
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.15);
 }
+.price-tag::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  background: #0a0f22;
+  opacity: 0.55;
+  clip-path: polygon(50% 0%, 61% 38%, 100% 38%, 69% 60%, 79% 100%, 50% 76%, 21% 100%, 31% 60%, 0% 38%, 39% 38%);
+}
 .price-compare { text-decoration: line-through; color: var(--text-muted); font-size: 0.9rem; }
 
+/* Star badge instead of zevkev.de's double-ring rubber-stamp circle --
+   same sparkle-point shape as .price-tag::before, just bigger. */
 .badge-soldout, .badge-sale {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 10px;
+  right: 10px;
   z-index: 2;
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
+  width: 70px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 800;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   line-height: 1.15;
-  background: transparent;
-  border: 5px double currentColor;
-  transform: rotate(-14deg);
-  mix-blend-mode: multiply;
-  opacity: 0.92;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  transform: rotate(-8deg);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
 }
-.badge-soldout { color: var(--accent-red); }
-.badge-sale { color: var(--accent-green); }
+.badge-soldout { background: var(--accent-red); color: #fff; }
+.badge-sale { background: var(--accent-2); color: #0a0f22; }
 
 /* ---------- Quick-view modal ----------
    .qv-panel/.qv-close/.qv-divider themselves moved to style.css -- they're

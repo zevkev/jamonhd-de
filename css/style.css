@@ -28,12 +28,13 @@
   --tape: rgba(230, 220, 170, 0.6);
   --text-dark: #1a1a1a;
   --text-muted: #4a4a40;
-  /* Different tone from zevkev.de's cork-brown on purpose (explicit ask:
-     Jamon's shop should read as its own material, not a reused cork
-     board) -- same feTurbulence grain recipe below, just a warmer khaki/
-     canvas base color instead of cork's orange-brown. */
-  --photo-mat: #b3a077;
-  --photo-mat-dark: #7d6e4c;
+  /* Space theme, matching the JAMON logo's orbit-ring/sparkle motif and
+     merch designs -- deep-space navy instead of zevkev.de's cork board.
+     Deliberately close to the same value in both light and dark mode (see
+     .rip--photo::before below for why): a night sky doesn't get lighter
+     just because the rest of the page switched themes. */
+  --photo-mat: #131c3a;
+  --photo-mat-dark: #0c1226;
   --accent-red: #c0392b;
   --accent-green: #3c7a4b;
   --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -78,8 +79,8 @@
   --tape: rgba(150, 165, 195, 0.45);
   --text-dark: #f0f1f5;
   --text-muted: #9d9fa8;
-  --photo-mat: #5c5236;
-  --photo-mat-dark: #3d3624;
+  --photo-mat: #0c1226;
+  --photo-mat-dark: #070a17;
   --accent-red: #e0564a;
   --accent-green: #5fb377;
   /* Brighter for dark-mode text/border legibility -- same "*-dark token
@@ -219,27 +220,29 @@ h1, h2, .display-font {
 .rip--c::before { clip-path: var(--tear-c); }
 .rip--accent::before { background-color: var(--paper-accent); }
 .rip--pink::before { background-color: var(--paper-pink); }
-/* Cork-board mat: an SVG feTurbulence noise filter for the grain (not
-   stacked gradients — those tile in an obviously regular grid at this
-   scale). stitchTiles="stitch" needs the filter region pinned to exactly
-   the tile size (x/y/width/height + userSpaceOnUse) to actually wrap
-   seamlessly — left at SVG's default expanded region, the noise didn't
-   align at the tile edge, showing up as a visible seam down the middle of
-   every photo. Kept deliberately low-contrast and fine-grained (high
-   baseFrequency, low numOctaves, a gentle linear contrast curve,
-   soft-light not overlay) — an earlier, punchier version read as blobby
-   ("melted cheese") or harshly rough rather than the smooth, even,
-   understated grain real cork actually has. Built from --photo-mat/
-   --photo-mat-dark plus neutral gray/black — no new hue. Kept in sync
-   with .product-photo-frame in shop.css, which uses the same recipe. */
+/* Starfield mat, not zevkev.de's cork board -- fits the JAMON logo's own
+   orbit-ring/sparkle motif and reads as a genuinely different material,
+   not a recolor of the same recipe. Plain radial-gradient dots rather than
+   the feTurbulence noise .rip--photo used to use: stars are discrete
+   points, not organic grain, so there's no seam-at-the-tile-edge problem
+   to solve the way the old grain recipe had -- each dot just repeats with
+   the 220px tile on its own. Kept in sync with .product-photo-frame in
+   shop.css, which uses the same recipe. */
 .rip--photo::before {
   background-color: var(--photo-mat);
   background-image:
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22220%22%20height%3D%22220%22%3E%3Cfilter%20id%3D%22n%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22220%22%20height%3D%22220%22%20filterUnits%3D%22userSpaceOnUse%22%20primitiveUnits%3D%22userSpaceOnUse%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.22%200.26%22%20numOctaves%3D%222%22%20seed%3D%227%22%20stitchTiles%3D%22stitch%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22220%22%20height%3D%22220%22%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220.33%200.33%200.33%200%200%200.33%200.33%200.33%200%200%200.33%200.33%200.33%200%200%200%200%200%200%201%22%2F%3E%3CfeComponentTransfer%3E%3CfeFuncR%20type%3D%22linear%22%20slope%3D%220.9%22%20intercept%3D%220.05%22%2F%3E%3CfeFuncG%20type%3D%22linear%22%20slope%3D%220.9%22%20intercept%3D%220.05%22%2F%3E%3CfeFuncB%20type%3D%22linear%22%20slope%3D%220.9%22%20intercept%3D%220.05%22%2F%3E%3C%2FfeComponentTransfer%3E%3C%2Ffilter%3E%3Crect%20width%3D%22220%22%20height%3D%22220%22%20filter%3D%22url(%23n)%22%2F%3E%3C%2Fsvg%3E"),
-    radial-gradient(ellipse at center, transparent 65%, rgba(0,0,0,.1) 100%);
-  background-size: 220px 220px, 100% 100%;
-  background-blend-mode: soft-light, multiply;
-  box-shadow: inset 0 0 8px rgba(0,0,0,.12);
+    radial-gradient(1.6px 1.6px at 18px 24px, rgba(255,255,255,.95), transparent),
+    radial-gradient(1px 1px at 52px 68px, rgba(255,255,255,.6), transparent),
+    radial-gradient(1.4px 1.4px at 94px 18px, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 130px 96px, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.6px 1.6px at 168px 40px, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 24px 130px, rgba(255,255,255,.45), transparent),
+    radial-gradient(1.4px 1.4px at 190px 150px, rgba(255,255,255,.75), transparent),
+    radial-gradient(1px 1px at 70px 160px, rgba(255,255,255,.55), transparent),
+    radial-gradient(1.3px 1.3px at 150px 190px, rgba(255,255,255,.7), transparent),
+    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.35) 100%);
+  background-size: 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%;
+  box-shadow: inset 0 0 8px rgba(0,0,0,.25);
 }
 
 .tape {
