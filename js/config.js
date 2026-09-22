@@ -10,4 +10,4 @@
 // is for the repo owner to click through GitHub's own "allow this secret"
 // flow once (Kevin has the URL from the blocked push), or paste the real
 // value in directly via GitHub's web editor. Placeholder here until then.
-export const FOURTHWALL_STOREFRONT_TOKEN = "ptkn_REPLACE_WITH_REAL_TOKEN";
+export const FOURTHWALL_STOREFRONT_TOKEN = "ptkn_944b78e5-504c-4fca-a46e-4eec93ed3af4";
