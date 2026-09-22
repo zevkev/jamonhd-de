@@ -228,14 +228,13 @@ h1, h2, .display-font {
    to solve the way the old grain recipe had -- each dot just repeats with
    the 220px tile on its own. Kept in sync with .product-photo-frame in
    shop.css, which uses the same recipe.
-   Four things layered here, back to front:
-   1. A faint diagonal crosshatch (same repeating-linear-gradient language
-      the site's own .zone texture already uses elsewhere) so this reads as
-      *textured paper with a starfield printed on it* first, a flat photo
-      of space second -- paper-craft material, not a screenshot.
-   2. The stars themselves: nine small fixed points plus two brighter
-      "hero" stars (a tight core + a soft wider glow layer each).
-   3. A faint nebula wash, tinted with this site's own green rather than an
+   Three things layered here, back to front:
+   1. The stars themselves: nine small fixed points plus two brighter
+      "hero" stars (a tight core + a soft wider glow layer each). A faint
+      diagonal crosshatch used to sit under these for a "paper fiber"
+      effect -- reported back as just reading like stray lines, not
+      texture, so it's gone; the stars carry the material on their own.
+   2. A faint nebula wash, tinted with this site's own green rather than an
       unrelated purple/blue. Deliberately NOT part of the tiled/fixed plane
       below -- an area-glow tiled at 220px and pinned to the viewport gets
       cropped differently by every frame's own bounds, which showed up as a
@@ -246,9 +245,9 @@ h1, h2, .display-font {
       `at X% Y%` position) with a three-stop falloff for a gradual edge, so
       every frame shows the same complete, softly-faded glow regardless of
       scroll position.
-   4. A per-frame vignette, same as before, darkening toward the torn edge.
-   background-attachment: fixed on the crosshatch/star layers only (nebula
-   and vignette are both local/scroll) -- same parallax technique home.css's
+   3. A per-frame vignette, same as before, darkening toward the torn edge.
+   background-attachment: fixed on the star layers only (nebula and
+   vignette are both local/scroll) -- same parallax technique home.css's
    own zone texture already uses (see its header comment): the star plane
    holds still against the viewport while the page scrolls, so each frame
    acts as a window onto one shared sky instead of carrying its own
@@ -256,8 +255,6 @@ h1, h2, .display-font {
 .rip--photo::before {
   background-color: var(--photo-mat);
   background-image:
-    repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 54px),
-    repeating-linear-gradient(-45deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 54px),
     radial-gradient(1.6px 1.6px at 18px 24px, rgba(255,255,255,.95), transparent),
     radial-gradient(1px 1px at 52px 68px, rgba(255,255,255,.55), transparent),
     radial-gradient(1.4px 1.4px at 94px 18px, rgba(255,255,255,.8), transparent),
@@ -273,8 +270,8 @@ h1, h2, .display-font {
     radial-gradient(6px 6px at 40px 90px, rgba(255,255,255,.18), transparent 70%),
     radial-gradient(ellipse 65% 55% at 78% 20%, rgba(78,159,61,.16), rgba(78,159,61,.06) 55%, transparent 85%),
     radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.35) 100%);
-  background-size: 54px 54px, 54px 54px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%, 100% 100%;
-  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, scroll, scroll;
+  background-size: 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%, 100% 100%;
+  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, scroll, scroll;
   box-shadow: inset 0 0 8px rgba(0,0,0,.25);
 }
 

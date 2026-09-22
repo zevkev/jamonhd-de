@@ -3,8 +3,8 @@
 /* One paper card for the whole header block (title, description, shipping
    note, and -- when active -- the campaign banner as an inset strip inside
    it) instead of separate plain-text-on-mat lines next to a standalone
-   floating banner card. Rocket icon + sparkle accents echo the JAMON logo's
-   own orbit-ring/sparkle motif, rather than zevkev.de's plain text-only
+   floating banner card. Sparkle accents echo the JAMON logo's own
+   orbit-ring/sparkle motif, rather than zevkev.de's plain text-only
    version of this same card. */
 .hero-shop {
   text-align: center;
@@ -14,12 +14,7 @@
   padding: 42px clamp(20px, 5vw, 48px) 34px;
   position: relative;
 }
-.hero-shop-icon {
-  width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  background: var(--paper-accent); color: var(--text-dark); margin: 0 auto 14px;
-}
-.hero-shop-icon svg { width: 26px; height: 26px; }
-.hero-shop h1 { font-size: 2.4rem; margin: 0 0 10px; color: var(--text-dark); }
+.hero-shop h1 { font-size: 2.4rem; margin: 4px 0 10px; color: var(--text-dark); }
 .hero-shop p { font-size: 1.15rem; color: var(--text-dark); }
 .hero-shop .shop-shipping-note { font-size: 0.85rem; margin-top: 6px; color: var(--text-muted); }
 
@@ -118,19 +113,17 @@
    the product detail page's main photo) — kept in sync so the grid
    thumbnails and the enlarged view read as the same material. See that
    file's own comment on .rip--photo::before for the full breakdown
-   (paper-fiber crosshatch + stars + hero-star glow + local nebula wash +
-   per-frame vignette) and why only the crosshatch/star layers use
-   background-attachment: fixed for a scroll-parallax effect -- the nebula
-   is deliberately local/scroll, not part of that tiled plane, since a
-   tiled area-glow gets cropped differently by every frame's own bounds. */
+   (stars + hero-star glow + local nebula wash + per-frame vignette) and
+   why only the star layers use background-attachment: fixed for a
+   scroll-parallax effect -- the nebula is deliberately local/scroll, not
+   part of that tiled plane, since a tiled area-glow gets cropped
+   differently by every frame's own bounds. */
 .product-photo-frame {
   padding: 14px;
   margin-bottom: 14px;
   position: relative;
   background-color: var(--photo-mat);
   background-image:
-    repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 54px),
-    repeating-linear-gradient(-45deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 54px),
     radial-gradient(1.6px 1.6px at 18px 24px, rgba(255,255,255,.95), transparent),
     radial-gradient(1px 1px at 52px 68px, rgba(255,255,255,.55), transparent),
     radial-gradient(1.4px 1.4px at 94px 18px, rgba(255,255,255,.8), transparent),
@@ -146,8 +139,8 @@
     radial-gradient(6px 6px at 40px 90px, rgba(255,255,255,.18), transparent 70%),
     radial-gradient(ellipse 65% 55% at 78% 20%, rgba(78,159,61,.16), rgba(78,159,61,.06) 55%, transparent 85%),
     radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.35) 100%);
-  background-size: 54px 54px, 54px 54px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%, 100% 100%;
-  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, scroll, scroll;
+  background-size: 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 220px 220px, 100% 100%, 100% 100%;
+  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, scroll, scroll;
   box-shadow: inset 0 0 8px rgba(0,0,0,.25), inset 0 0 0 1px rgba(0,0,0,.2);
   /* Chipped/irregular edge instead of a stark rectangle -- reuses the same
      --tear-b polygon the rest of the site's .rip cards already cut their
