@@ -887,9 +887,16 @@ a.comment-author:hover { text-decoration: underline; }
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  animation: fadeUp 0.5s ease both;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+/* This used to also carry its own `animation: fadeUp 0.5s ease both;`,
+   completely independent of the .reveal class already on every card using
+   this selector (js/youtube.js) -- firing immediately on insertion
+   regardless of scroll position, which is why scrolling never visibly
+   "did" anything on this page: every card below the fold had already
+   faded in before it was ever seen. Removed now that js/reveal.js's
+   initReveal() is actually wired up on every page that renders one of
+   these cards (it wasn't before). */
 .vod-card:nth-child(3n + 2) { margin-top: 20px; }
 .vod-card:nth-child(3n + 3) { margin-top: -8px; }
 .vod-card:hover, .vod-card:focus-visible { transform: rotate(0deg) scale(1.02) translateY(-4px) !important; }
