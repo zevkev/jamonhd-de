@@ -4,13 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Profil | Jamon</title>
+<meta name="description" content="Profil auf Jamon.">
+<!-- This exact query-string path stays noindex -- the real, shareable
+     canonical URL is /user/<name>/ (served via 404.html's clean-URL
+     fallback, same trick as /shop/<slug> and /video/<id>/). js/profil.js
+     still points this page's own og:*/canonical tags at that clean form
+     dynamically (see its init()), so a link shared FROM this older URL
+     shape still previews/canonicalizes correctly -- this tag just stops
+     the query-string variant itself from being indexed as a duplicate. -->
 <meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://jamonhd.de/profil/">
 
 <link rel="icon" type="image/png" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
 <link rel="apple-touch-icon" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Profil | Jamon">
+<meta property="og:description" content="Profil auf Jamon.">
+<meta property="og:image" content="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
 
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/youtube.css">
