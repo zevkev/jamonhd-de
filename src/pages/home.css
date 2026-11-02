@@ -1,0 +1,294 @@
+/* Page styles: home. Wrap rules in @layer components so utilities can override them. */
+@layer components {
+  /* ---------- Split ticket ----------
+     Two parts with a perforation between them: stacked (horizontal
+     perforation, notches left and right at --notch-y) below lg, side by
+     side (vertical perforation, notches top and bottom at --notch-x) from
+     lg up. The perforation is 2.5px thick, so a notch sits at the part
+     size + 1.25px. */
+  .ticket-split { display: flex; flex-direction: column; }
+  .split-perf {
+    flex-shrink: 0;
+    height: 0;
+    margin-inline: 1.1rem;
+    border-top: 2.5px dashed var(--line);
+  }
+  @media (min-width: 1024px) {
+    .ticket-split { flex-direction: row; }
+    .ticket-split::before {
+      -webkit-mask:
+        radial-gradient(circle at var(--notch-x, 50%) 0, transparent 0.8rem, #000 calc(0.8rem + 0.5px)) top / 100% 51% no-repeat,
+        radial-gradient(circle at var(--notch-x, 50%) 100%, transparent 0.8rem, #000 calc(0.8rem + 0.5px)) bottom / 100% 51% no-repeat;
+              mask:
+        radial-gradient(circle at var(--notch-x, 50%) 0, transparent 0.8rem, #000 calc(0.8rem + 0.5px)) top / 100% 51% no-repeat,
+        radial-gradient(circle at var(--notch-x, 50%) 100%, transparent 0.8rem, #000 calc(0.8rem + 0.5px)) bottom / 100% 51% no-repeat;
+    }
+    .split-perf {
+      width: 0;
+      height: auto;
+      margin: 1.1rem 0;
+      border-top: 0;
+      border-left: 2.5px dashed var(--line);
+    }
+  }
+
+  /* ---------- Hero: the admission ticket ---------- */
+  .hero-ticket { --notch-y: calc(17.5rem + 1.25px); --notch-x: calc(22rem + 1.25px); }
+  .hero-stub {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    height: 17.5rem;
+  }
+  .hero-photo { width: 13rem; height: 13rem; rotate: -4deg; transition: rotate 0.4s var(--ease-bounce); }
+  .hero-photo:hover { rotate: -1deg; }
+  @media (min-width: 1024px) {
+    .hero-stub { width: 22rem; height: auto; padding-block: 2.75rem; }
+    .hero-photo { width: 16.5rem; height: 16.5rem; }
+  }
+
+  /* Wordmark: solid ink, a hand-drawn yellow swoosh below the baseline
+     (it never sits behind the letters, so it reads in both themes). */
+  .hero-name {
+    font-size: clamp(3.75rem, 15vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+  .hero-word { position: relative; display: inline-block; padding-bottom: 0.16em; }
+  .hero-swoosh {
+    position: absolute;
+    left: 0.04em;
+    bottom: 0;
+    width: calc(100% - 0.06em);
+    height: 0.2em;
+    overflow: visible;
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 0.085em;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hero-social svg { width: 1.25rem; height: 1.25rem; }
+  @media (max-width: 639.98px) {
+    /* Phones: three equal arcade buttons, icon over label. */
+    .hero-social {
+      flex-direction: column;
+      gap: 0.35rem;
+      height: auto;
+      padding: 0.75rem 0.25rem 0.7rem;
+      border-radius: 1.1rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  /* Scroll hint: a small sign below the ticket. */
+  .scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: fit-content;
+    max-width: 100%;
+    margin: 2.5rem auto 0;
+    padding: 0.5rem 1.15rem 0.5rem 0.55rem;
+    border-radius: 9999px;
+    background: var(--surface);
+    color: var(--ink-muted);
+    font-size: 0.92rem;
+    line-height: 1.3;
+    box-shadow: 0 1px 0 var(--line), 0 12px 22px -14px rgb(0 0 0 / 0.45);
+  }
+  .scroll-hint-arrow {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background: var(--brand);
+    color: var(--brand-ink);
+    animation: var(--animate-bob);
+  }
+  .scroll-hint-arrow svg { width: 1.05rem; height: 1.05rem; }
+
+  /* ---------- Attractions (Alles an einem Ort) ---------- */
+  .attraction {
+    --notch-y: calc(100% - 4rem - 1.25px);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+  }
+  .attraction-icon {
+    display: grid;
+    place-items: center;
+    width: 3.6rem;
+    height: 3.6rem;
+    border: 3px solid var(--sticker-edge);
+    border-radius: 1.05rem;
+    box-shadow: 0 2px 0 rgb(0 0 0 / 0.07), 0 10px 18px -10px rgb(0 0 0 / 0.45);
+    rotate: -6deg;
+    transition: rotate 0.35s var(--ease-bounce);
+  }
+  .attraction:hover .attraction-icon { rotate: 5deg; }
+  .attraction-icon svg { width: 1.7rem; height: 1.7rem; }
+  /* "Medienspeicher" is about 7.65em wide: at md the columns are narrow. */
+  .attraction-title { font-size: 1.6rem; overflow-wrap: break-word; }
+  @media (min-width: 768px) { .attraction-title { font-size: 1.4rem; } }
+  @media (min-width: 1024px) { .attraction-title { font-size: 1.85rem; } }
+  .attraction-go {
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background: var(--ink);
+    color: var(--surface);
+    transition: translate 0.3s var(--ease-bounce);
+  }
+  .attraction:hover .attraction-go { translate: 4px 0; }
+  .attraction-go svg { width: 1.1rem; height: 1.1rem; }
+
+  /* ---------- Discord invite ticket ---------- */
+  /* Below lg the stub has a fixed height, so the notch can sit exactly on
+     the perforation; from lg the stub has a fixed width instead. */
+  .dc-invite { --notch-y: calc(100% - 12rem - 1.25px); --notch-x: calc(100% - 23rem - 1.25px); }
+  .dc-icon { width: 4.75rem; height: 4.75rem; flex-shrink: 0; rotate: -5deg; }
+  @media (min-width: 640px) { .dc-icon { width: 6rem; height: 6rem; } }
+  .dc-eyebrow {
+    color: color-mix(in srgb, var(--brand) 75%, var(--ink));
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  :where([data-theme="dark"]) .dc-eyebrow { color: var(--brand); }
+  .dc-name { margin-top: 0.3rem; font-size: clamp(1.9rem, 4vw, 2.6rem); overflow-wrap: break-word; }
+  .dc-stats { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; margin-top: 0.6rem; color: var(--ink-muted); font-size: 0.92rem; }
+  .dc-stats > span { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .dc-stats b { color: var(--ink); font-weight: 800; }
+  .dc-dot { width: 0.6rem; height: 0.6rem; border-radius: 9999px; background: var(--ink-muted); opacity: 0.7; }
+  .dc-dot-online { background: #23a55a; opacity: 1; box-shadow: 0 0 0 3px rgb(35 165 90 / 0.22); }
+
+  /* Join button and invite link sit centred in the stub. The copy feedback
+     hangs below them (absolute) inside the stub's padding, so showing it
+     never changes the stub height. */
+  .dc-stub {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    height: 12rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) { .dc-stub { padding-inline: 2rem; } }
+  @media (min-width: 1024px) { .dc-stub { width: 23rem; height: auto; padding: 2.75rem 1.6rem; } }
+  .dc-actions { position: relative; display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .dc-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 3rem;
+    padding: 0 0.3rem 0 1rem;
+    border-radius: 9999px;
+    background: var(--surface-2);
+    box-shadow: inset 0 0 0 1.5px var(--line);
+  }
+  .dc-link-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; font-size: 0.92rem; }
+  .dc-copy { padding-inline: 0.75rem; box-shadow: 0 3px 0 var(--btn-depth, rgb(20 42 32 / 0.2)); }
+  .dc-copy:hover { box-shadow: 0 4px 0 var(--btn-depth, rgb(20 42 32 / 0.2)); }
+  .dc-copy .copy-done { display: none; }
+  .dc-copy.is-copied { background: var(--brand); color: var(--brand-ink); border-color: transparent; --btn-depth: var(--brand-deep); }
+  .dc-copy.is-copied .copy-icon { display: none; }
+  .dc-copy.is-copied .copy-done { display: block; }
+
+  .dc-copy-ok {
+    position: absolute;
+    top: calc(100% + 0.45rem);
+    inset-inline: 0;
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  .dc-copy-ok.is-link { color: var(--ink); font-size: 0.8rem; user-select: all; }
+
+  /* "So trittst du bei": native details, the steps show after a click. */
+  .dc-how > summary { list-style: none; }
+  .dc-how > summary::-webkit-details-marker { display: none; }
+  .dc-how-chev { transition: rotate 0.3s var(--ease-bounce); }
+  .dc-how[open] .dc-how-chev { rotate: 180deg; }
+  .dc-how[open] .dc-step { animation: reveal-in 0.45s var(--ease-soft) backwards; }
+  .dc-how[open] .dc-step:nth-child(2) { animation-delay: 0.07s; }
+  .dc-how[open] .dc-step:nth-child(3) { animation-delay: 0.14s; }
+  .step-num {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background: var(--brand);
+    color: var(--brand-ink);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.3rem;
+    line-height: 1;
+    box-shadow: 0 3px 0 var(--brand-deep);
+  }
+
+  /* ---------- Team: collectible ride tickets ---------- */
+  /* --role is the member colour; --role-ink a darker (light mode) or
+     lighter (dark mode) shade of it that stays readable as text. */
+  .team-card {
+    --notch-y: calc(13.5rem + 1.25px);
+    --role-ink: color-mix(in srgb, var(--role) 78%, var(--ink));
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .team-window {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 12rem;
+    margin: 0.75rem 0.75rem 0;
+    overflow: hidden;
+    border-radius: 0.95rem;
+    /* Calm backdrop: a soft tint of the role colour with the fine dot grid
+       of the shop's photo stage. */
+    background-color: color-mix(in srgb, var(--role) 14%, var(--surface));
+    background-image: radial-gradient(color-mix(in srgb, var(--role) 34%, transparent) 1.1px, transparent 1.7px);
+    background-size: 14px 14px;
+    background-position: 7px 7px;
+  }
+  /* At night a tint of red on the green surface turns brown, so the role
+     colour only shows in the dots and a thin ring. */
+  :where([data-theme="dark"]) .team-window {
+    background-color: var(--surface-2);
+    background-image: radial-gradient(color-mix(in srgb, var(--role) 55%, transparent) 1.1px, transparent 1.7px);
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--role) 45%, transparent);
+  }
+  .team-photo { width: 8.5rem; height: 8.5rem; rotate: -3deg; transition: rotate 0.35s var(--ease-bounce); }
+  .team-card:hover .team-photo { rotate: 2deg; }
+  .team-no {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    background: var(--surface);
+    color: var(--role-ink);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+  }
+  .team-role { --stamp: var(--role-ink); }
+  .team-name { font-size: 2.1rem; }
+}

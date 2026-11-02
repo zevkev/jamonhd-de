@@ -1,0 +1,733 @@
+/* Page styles: shop (grid, product page, cart drawer, lightbox) and the
+   404 ticket. Wrapped in @layer components so utilities win. */
+@layer components {
+  /* ---------- Photo stage ----------
+     Fourthwall's product photos have transparent backgrounds, so they sit
+     on a fixed light mint with a fine dot grid (the park map's paper).
+     Light in both themes on purpose: white and black products both stay
+     visible, and the colors of the merch read true. */
+  .photo-stage {
+    background-color: #d6eadc;
+    background-image: radial-gradient(rgb(13 106 64 / 0.15) 1.1px, transparent 1.7px);
+    background-size: 14px 14px;
+    background-position: 7px 7px;
+  }
+  :where([data-theme="dark"]) .photo-stage { background-color: #bfd9c8; }
+
+  /* ---------- Promo banner (/aktion.txt, js/catalog.js) ---------- */
+  .shop-promo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    padding: 0.9rem 1rem;
+    border: 2px dashed color-mix(in srgb, var(--accent-deep) 75%, transparent);
+    border-radius: 1rem;
+    background: var(--surface-3);
+    text-align: left;
+  }
+  .shop-promo-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    box-shadow: 0 3px 0 var(--accent-deep);
+    rotate: -8deg;
+  }
+  .shop-promo-icon svg { width: 1.3rem; height: 1.3rem; }
+  .shop-promo-text { flex: 1 1 13rem; font-weight: 700; line-height: 1.4; }
+  .shop-promo-code { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+  .shop-promo-chip {
+    padding: 0.25rem 0.65rem;
+    border: 2px dashed var(--ink);
+    border-radius: 0.5rem;
+    background: var(--surface);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+  }
+
+  /* ---------- Product cards: small tickets, photo above the perforation,
+     name and price on the stub below it (js/catalog.js) ---------- */
+  .product-card { display: flex; flex-direction: column; padding: 0.5rem; }
+  @media (min-width: 640px) {
+    .product-card { padding: 0.65rem; }
+  }
+  .product-photo {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 0.85rem;
+  }
+  .product-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.35s ease, scale 0.5s var(--ease-soft);
+  }
+  /* Crossfade: with transparent photos both layers must swap, otherwise the
+     front view would shine through the back view. */
+  .product-img-alt { opacity: 0; }
+  .product-card.is-flipped .product-img:not(.product-img-alt) { opacity: 0; }
+  .product-card.is-flipped .product-img-alt { opacity: 1; }
+  @media (hover: hover) {
+    .product-card:hover .product-img { scale: 1.04; }
+    .product-card:hover .product-img:has(+ .product-img-alt) { opacity: 0; }
+    .product-card:hover .product-img-alt { opacity: 1; }
+    .product-card.is-flipped:hover .product-img:not(.product-img-alt) { opacity: 1; }
+    .product-card.is-flipped:hover .product-img-alt { opacity: 0; }
+  }
+  .product-img-missing {
+    position: absolute;
+    inset: 30%;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.4);
+  }
+  .product-card.is-soldout .product-img { filter: grayscale(0.8); opacity: 0.65; }
+
+  .product-perf { margin-top: 0.85rem; margin-inline: 1rem; }
+  .product-stub { flex: 1 1 auto; padding: 0.7rem 0.45rem 0.55rem; }
+  @media (min-width: 640px) {
+    .product-stub { padding: 0.8rem 0.55rem 0.6rem; }
+  }
+  .product-name { font-size: 1.12rem; line-height: 1.12; }
+  @media (min-width: 640px) {
+    .product-name { font-size: 1.4rem; }
+  }
+
+  /* Whole card is clickable through the title link's overlay; the flip
+     button sits above that overlay. */
+  .product-link { color: inherit; text-decoration: none; }
+  .product-link::after { content: ""; position: absolute; inset: 0; z-index: 10; }
+  .product-link:focus-visible { outline: none; }
+  .product-card:has(.product-link:focus-visible) { outline: 3px solid var(--focus); outline-offset: 4px; border-radius: 1.25rem; }
+
+  .product-flip {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 20;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 2px solid rgb(255 255 255 / 0.75);
+    border-radius: 9999px;
+    background: rgb(20 42 32 / 0.85);
+    color: #fff;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.3);
+    transition: opacity 0.2s ease, scale 0.25s var(--ease-bounce), rotate 0.35s var(--ease-bounce);
+  }
+  .product-flip svg { width: 1.1rem; height: 1.1rem; }
+  .product-flip[aria-pressed="true"] { rotate: 180deg; }
+  /* Mouse users get the hover crossfade; the button shows on hover or
+     keyboard focus. Touch screens always show it. */
+  @media (hover: hover) {
+    .product-flip { opacity: 0; }
+    .product-card:hover .product-flip, .product-flip:focus-visible { opacity: 1; }
+    .product-flip:hover { scale: 1.08; }
+  }
+
+  /* Stamps on the photo: the stage is light in both themes, so they get a
+     fixed light fill and fixed ink colors. */
+  .shop-stamp {
+    --stamp: #c2391b;
+    background: rgb(255 253 246 / 0.94);
+    font-size: 0.7rem;
+    box-shadow: 0 4px 10px -4px rgb(0 0 0 / 0.35);
+  }
+  .shop-stamp-soldout { --stamp: #142a20; }
+
+  /* Available colors on the stub, right of the price (wraps below it on
+     narrow cards). The ring keeps white and black swatches visible on
+     both surfaces. */
+  .product-stub { container-type: inline-size; }
+  .color-dots { display: inline-flex; align-items: center; gap: 0.38rem; margin-left: auto; padding: 0 0.2rem; }
+  @container (max-width: 13rem) {
+    .color-dots { flex-basis: 100%; margin-left: 0; }
+  }
+  .color-dot {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 9999px;
+    background: var(--swatch);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.2), 0 0 0 1.5px var(--surface), 0 0 0 2.5px color-mix(in srgb, var(--ink) 28%, transparent);
+  }
+
+  /* Price on a yellow hang tag: pointed left end with a punched hole. */
+  .price-tag {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    padding: 0.42rem 0.7rem 0.38rem 1.2rem;
+    border-radius: 0.45rem;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    clip-path: polygon(0.6rem 0, 100% 0, 100% 100%, 0.6rem 100%, 0 50%);
+  }
+  .price-tag::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0.55rem;
+    width: 0.32rem;
+    height: 0.32rem;
+    margin-top: -0.16rem;
+    border-radius: 9999px;
+    background: var(--surface);
+  }
+  .price-from { font-size: 0.8em; font-weight: 650; }
+  .price-tag-lg { padding: 0.6rem 1rem 0.55rem 1.6rem; font-size: 1.5rem; clip-path: polygon(0.85rem 0, 100% 0, 100% 100%, 0.85rem 100%, 0 50%); }
+  .price-tag-lg::before { left: 0.78rem; width: 0.42rem; height: 0.42rem; margin-top: -0.21rem; }
+  .price-compare { color: var(--ink-muted); font-size: 0.92rem; font-weight: 600; text-decoration-thickness: 1.5px; }
+  @media (max-width: 639.98px) {
+    .product-card .price-tag { padding: 0.36rem 0.55rem 0.32rem 1.05rem; font-size: 0.9rem; }
+    .product-card .price-compare { font-size: 0.8rem; }
+  }
+
+  /* ---------- Product page (js/product.js) ---------- */
+  .crumbs {
+    display: inline-flex;
+    max-width: 100%;
+    min-width: 0;
+    align-items: center;
+    gap: 0.45rem;
+    height: 2.6rem;
+    padding: 0 1.1rem 0 0.85rem;
+    border-radius: 9999px;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 700;
+    box-shadow: 0 1px 0 var(--line), 0 10px 18px -14px rgb(0 0 0 / 0.45);
+  }
+  .crumbs-link {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--link);
+    text-decoration: none;
+  }
+  .crumbs-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .crumbs svg { width: 1rem; height: 1rem; }
+  .crumbs-sep { display: inline-flex; flex-shrink: 0; color: var(--ink-muted); }
+
+  .pd-stage {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 0.95rem;
+  }
+  .pd-zoom {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: zoom-in;
+  }
+  .pd-zoom img { width: 100%; height: 100%; object-fit: contain; }
+  .pd-zoom:focus-visible { outline-offset: -4px; }
+
+  /* Solid dark circles with a light ring: visible on white and black
+     products alike. */
+  .pd-zoom-hint, .pd-nav, .pd-count {
+    background: rgb(20 42 32 / 0.85);
+    color: #fff;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.3);
+  }
+  .pd-zoom-hint {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 2px solid rgb(255 255 255 / 0.75);
+    border-radius: 9999px;
+    pointer-events: none;
+  }
+  .pd-zoom-hint svg { width: 1.1rem; height: 1.1rem; }
+  .pd-nav {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 2px solid rgb(255 255 255 / 0.75);
+    border-radius: 9999px;
+    translate: 0 -50%;
+    transition: scale 0.2s var(--ease-bounce), background-color 0.2s ease;
+  }
+  .pd-nav svg { width: 1.3rem; height: 1.3rem; }
+  .pd-nav:hover { scale: 1.08; background: rgb(10 22 16 / 0.95); }
+  .pd-nav-prev { left: 0.65rem; }
+  .pd-nav-next { right: 0.65rem; }
+  .pd-count {
+    position: absolute;
+    bottom: 0.65rem;
+    left: 50%;
+    padding: 0.25rem 0.7rem;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    translate: -50% 0;
+    pointer-events: none;
+  }
+
+  .pd-thumbs {
+    display: flex;
+    gap: 0.55rem;
+    margin-top: 0.55rem;
+    padding: 0.3rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+  .pd-thumb {
+    flex: 1 1 0;
+    min-width: 3.25rem;
+    max-width: 4.75rem;
+    aspect-ratio: 3 / 4;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0.6rem;
+    opacity: 0.7;
+    outline: 2.5px solid transparent;
+    outline-offset: 2px;
+    transition: opacity 0.2s ease, outline-color 0.2s ease;
+  }
+  .pd-thumb img { width: 100%; height: 100%; object-fit: contain; }
+  .pd-thumb:hover { opacity: 1; }
+  .pd-thumb.is-active { opacity: 1; outline-color: var(--brand); }
+
+  .pd-legend { font-size: 0.95rem; font-weight: 800; }
+  .pd-legend-value { font-weight: 600; color: var(--ink-muted); }
+
+  .pd-swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.75rem;
+    padding: 0 1rem 0 0.4rem;
+    border: 2px solid var(--line);
+    border-radius: 9999px;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+  .pd-swatch:hover { border-color: color-mix(in srgb, var(--brand) 55%, transparent); }
+  .pd-swatch[aria-pressed="true"] {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 1px var(--brand);
+    background: color-mix(in srgb, var(--brand) 10%, var(--surface));
+  }
+  .pd-swatch-dot {
+    width: 1.85rem;
+    height: 1.85rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background-color: var(--swatch);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.22);
+  }
+  :where([data-theme="dark"]) .pd-swatch-dot { box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.3), 0 0 0 1px rgb(255 255 255 / 0.3); }
+  .pd-swatch.is-unavailable { color: var(--ink-muted); }
+  .pd-swatch.is-unavailable > span:not(.pd-swatch-dot) { text-decoration: line-through; }
+  .pd-swatch.is-unavailable .pd-swatch-dot {
+    opacity: 0.6;
+    background-image: linear-gradient(to top right, transparent calc(50% - 1.25px), var(--danger) calc(50% - 1.25px) calc(50% + 1.25px), transparent calc(50% + 1.25px));
+  }
+
+  .pd-size {
+    min-width: 3.1rem;
+    height: 2.75rem;
+    padding: 0 0.9rem;
+    border: 2px solid var(--line);
+    border-radius: 0.8rem;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 0.92rem;
+    font-weight: 700;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+  }
+  .pd-size:hover:not(:disabled) { border-color: color-mix(in srgb, var(--brand) 55%, transparent); }
+  .pd-size[aria-pressed="true"] {
+    border-color: var(--brand);
+    background: var(--brand);
+    color: var(--brand-ink);
+    box-shadow: 0 3px 0 var(--brand-deep);
+  }
+  .pd-size.is-unavailable {
+    border-style: dashed;
+    color: var(--ink-muted);
+    text-decoration: line-through;
+    opacity: 0.55;
+  }
+
+  /* Quantity stepper (product page and cart lines). */
+  .qty-stepper {
+    display: inline-flex;
+    align-items: center;
+    height: 3.35rem;
+    padding: 0.25rem;
+    border: 2px solid var(--line);
+    border-radius: 9999px;
+    background: var(--surface-2);
+  }
+  .qty-stepper button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.7rem;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--ink);
+    transition: background-color 0.15s ease;
+  }
+  .qty-stepper button svg { width: 1.05rem; height: 1.05rem; }
+  .qty-stepper button:hover:not(:disabled) { background: var(--surface); }
+  .qty-stepper button:disabled { opacity: 0.3; }
+  .qty-stepper input {
+    width: 2.5rem;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-align: center;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  .qty-stepper input::-webkit-outer-spin-button,
+  .qty-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .qty-stepper-sm { height: 2.4rem; padding: 0.15rem; }
+  .qty-stepper-sm button { width: 2.05rem; }
+  .qty-stepper-sm button svg { width: 0.9rem; height: 0.9rem; }
+  .qty-value { min-width: 1.8rem; text-align: center; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+  .pd-stock { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.92rem; font-weight: 700; line-height: 1.4; }
+  .pd-stock svg { width: 1.1rem; height: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+  .pd-stock[data-tone="ok"] { color: color-mix(in srgb, var(--success) 80%, var(--ink)); }
+  :where([data-theme="dark"]) .pd-stock[data-tone="ok"] { color: var(--success); }
+  .pd-stock[data-tone="low"] { color: #a35a00; }
+  :where([data-theme="dark"]) .pd-stock[data-tone="low"] { color: #f2b25c; }
+  .pd-stock[data-tone="bad"] { color: var(--danger); }
+
+  .pd-accordion { border-top: 2px dashed var(--line); }
+  .pd-accordion details { border-bottom: 2px dashed var(--line); }
+  .pd-accordion summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0.1rem;
+    font-weight: 800;
+    list-style: none;
+  }
+  .pd-accordion summary::-webkit-details-marker { display: none; }
+  .pd-accordion summary:hover { color: var(--link); }
+  .pd-acc-chevron { width: 1.2rem; height: 1.2rem; flex-shrink: 0; transition: rotate 0.25s var(--ease-soft); }
+  .pd-accordion details[open] .pd-acc-chevron { rotate: 180deg; }
+  .pd-rich { padding: 0 0.1rem 1.15rem; line-height: 1.65; color: var(--ink-muted); }
+  .pd-rich p + p, .pd-rich p + ul, .pd-rich ul + p, .pd-rich div + div { margin-top: 0.75rem; }
+  .pd-rich ul { padding-left: 1.2rem; list-style: disc; }
+  .pd-rich ol { padding-left: 1.2rem; list-style: decimal; }
+  .pd-rich li::marker { color: var(--brand); }
+  .pd-rich strong, .pd-rich b { font-weight: 800; color: var(--ink); }
+  .pd-rich img { border-radius: 0.5rem; }
+  .pd-rich table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .pd-rich th, .pd-rich td { padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--line); text-align: left; }
+
+  /* ---------- Lightbox (js/product.js) ---------- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4.75rem 1rem;
+    background: rgb(3 12 8 / 0.9);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .lightbox.is-open { opacity: 1; }
+  .lightbox-stage {
+    --ar: 0.75;
+    position: relative;
+    margin: 0;
+    width: min(100%, calc((100dvh - 9.5rem) * var(--ar)));
+    aspect-ratio: var(--ar);
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 20px 50px rgb(0 0 0 / 0.6);
+  }
+  .lightbox-stage img { width: 100%; height: 100%; object-fit: contain; }
+  .lightbox-btn {
+    position: absolute;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border: 2px solid rgb(255 255 255 / 0.8);
+    border-radius: 9999px;
+    background: rgb(20 42 32 / 0.9);
+    color: #fff;
+    box-shadow: 0 4px 14px rgb(0 0 0 / 0.5);
+    transition: scale 0.2s var(--ease-bounce), background-color 0.2s ease;
+  }
+  .lightbox-btn svg { width: 1.4rem; height: 1.4rem; stroke-width: 2.5; }
+  .lightbox-btn:hover { scale: 1.08; background: #0a1610; }
+  .lightbox-close { top: max(1rem, env(safe-area-inset-top)); right: 1rem; }
+  .lightbox-prev, .lightbox-next { top: 50%; translate: 0 -50%; }
+  .lightbox-prev { left: 1rem; }
+  .lightbox-next { right: 1rem; }
+  .lightbox-count {
+    position: absolute;
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
+    left: 50%;
+    padding: 0.3rem 0.85rem;
+    border-radius: 9999px;
+    background: rgb(20 42 32 / 0.9);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    translate: -50% 0;
+  }
+
+  html.cart-is-open, html.lightbox-is-open { overflow: hidden; }
+
+  /* ---------- Cart drawer (js/cart.js) ---------- */
+  .cart-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 240;
+    background: rgb(3 12 8 / 0.55);
+    -webkit-backdrop-filter: blur(2px);
+            backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .cart-backdrop.is-open { opacity: 1; pointer-events: auto; }
+
+  /* A tall ticket that slides in from the right: full screen on phones,
+     floating like the header from 640px. The notches sit on the
+     perforation under the fixed height head. */
+  .cart-drawer {
+    --cart-head-h: calc(5rem + env(safe-area-inset-top, 0px));
+    --notch-y: calc(var(--cart-head-h) + 1.25px);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 250;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: var(--ink);
+    filter: drop-shadow(-12px 0 28px rgb(0 0 0 / 0.35));
+    translate: 105% 0;
+    visibility: hidden;
+    transition: translate 0.38s var(--ease-soft), visibility 0s linear 0.38s;
+  }
+  .cart-drawer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--surface);
+    -webkit-mask:
+      radial-gradient(circle at 0 var(--notch-y), transparent 0.8rem, #000 calc(0.8rem + 0.5px)) left / 51% 100% no-repeat,
+      radial-gradient(circle at 100% var(--notch-y), transparent 0.8rem, #000 calc(0.8rem + 0.5px)) right / 51% 100% no-repeat;
+            mask:
+      radial-gradient(circle at 0 var(--notch-y), transparent 0.8rem, #000 calc(0.8rem + 0.5px)) left / 51% 100% no-repeat,
+      radial-gradient(circle at 100% var(--notch-y), transparent 0.8rem, #000 calc(0.8rem + 0.5px)) right / 51% 100% no-repeat;
+  }
+  @media (min-width: 640px) {
+    .cart-drawer {
+      top: 0.75rem;
+      right: 0.75rem;
+      bottom: 0.75rem;
+      width: 27rem;
+      border-radius: 1.5rem;
+      translate: calc(100% + 1.5rem) 0;
+    }
+  }
+  .cart-drawer.is-open { translate: 0 0; visibility: visible; transition: translate 0.38s var(--ease-soft), visibility 0s; }
+
+  .cart-head {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--cart-head-h);
+    padding: env(safe-area-inset-top, 0px) 1.25rem 0;
+  }
+  @media (min-width: 640px) {
+    .cart-head { padding-inline: 1.75rem; }
+  }
+  .cart-perf { flex-shrink: 0; }
+
+  .cart-close {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--surface-2);
+    color: var(--ink);
+    transition: rotate 0.3s var(--ease-bounce), background-color 0.2s ease;
+  }
+  .cart-close svg { width: 1.3rem; height: 1.3rem; stroke-width: 2.6; }
+  .cart-close:hover { rotate: 90deg; background: var(--brand); color: var(--brand-ink); }
+
+  .cart-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  .cart-lines { padding-inline: 1.25rem; }
+  @media (min-width: 640px) {
+    .cart-lines { padding-inline: 1.75rem; }
+  }
+  .cart-line { display: flex; gap: 1rem; padding: 1.1rem 0; border-bottom: 2px dashed var(--line); transition: opacity 0.2s ease; }
+  .cart-line:last-child { border-bottom: 0; }
+  .cart-line.is-pending { opacity: 0.55; }
+  .cart-thumb { flex: 0 0 auto; width: 4.5rem; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 0.7rem; }
+  .cart-thumb img { width: 100%; height: 100%; object-fit: contain; }
+  .cart-remove {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin: -0.3rem -0.4rem 0 0;
+    padding: 0;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--ink-muted);
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+  .cart-remove svg { width: 1.1rem; height: 1.1rem; }
+  .cart-remove:hover { color: var(--danger); background: var(--surface-2); }
+
+  .cart-foot {
+    flex-shrink: 0;
+    padding: 1.1rem 1.25rem calc(1.1rem + env(safe-area-inset-bottom, 0px));
+    border-top: 2.5px dashed var(--line);
+  }
+  @media (min-width: 640px) {
+    .cart-foot { padding: 1.2rem 1.75rem 1.4rem; }
+  }
+  .cart-continue {
+    display: block;
+    width: 100%;
+    height: 2.6rem;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--ink) 30%, transparent);
+  }
+  .cart-continue:hover { text-decoration-color: currentColor; }
+
+  .cart-empty { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 3.5rem 1.5rem; text-align: center; }
+  .cart-empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-bottom: 0.6rem;
+    border-radius: 9999px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    box-shadow: 0 5px 0 var(--accent-deep);
+    rotate: -6deg;
+  }
+  .cart-empty-icon svg { width: 2.1rem; height: 2.1rem; }
+  .cart-empty-icon-error { background: var(--danger); color: #fff; box-shadow: 0 5px 0 color-mix(in srgb, var(--danger) 60%, #000); }
+
+  /* The shared .toast sits at left: 50%, which limits a shrink-to-fit box
+     to half the viewport; max-content keeps short messages on one line. */
+  .shop-toast { width: max-content; max-width: min(calc(100vw - 2rem), 26rem); }
+  .shop-toast svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
+  .toast-error { background: #b8322a; color: #fff; }
+
+  /* ---------- 404 (404.html) ---------- */
+  .notfound-ticket { --notch-y: calc(9rem + 1.25px); }
+  .notfound-band {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 9rem;
+  }
+  .notfound-number {
+    font-family: var(--font-display);
+    font-size: 6.5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--brand);
+    text-shadow: 0 6px 0 var(--brand-deep);
+  }
+  .notfound-stamp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0.3rem 0.8rem;
+    border-width: 3px;
+    background: var(--surface);
+    font-size: 0.95rem;
+    translate: -50% -5%;
+    rotate: -9deg;
+    box-shadow: 0 6px 14px -6px rgb(0 0 0 / 0.4);
+  }
+  /* Old links forward right away (inline script in 404.html), so the page
+     itself never flashes up. */
+  html[data-route="redirect"] body { visibility: hidden; }
+}

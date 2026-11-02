@@ -1,0 +1,189 @@
+/* Page styles: legal (Impressum, Datenschutz, AGB, Widerrufsrecht, Kontakt).
+   Wrap rules in @layer components so utilities can override them. One long
+   ticket sheet per page: a header part, the perforation, then the text. */
+@layer components {
+  /* Switcher between the legal pages, above the sheet. The radius is half
+     the single row height, so it stays a pill and still looks right when
+     the items wrap on phones. */
+  .legal-nav { justify-content: center; max-width: 100%; border-radius: 1.6rem; }
+  @media (max-width: 639.98px) {
+    .legal-nav .seg-item { padding-inline: 0.7rem; font-size: 0.85rem; }
+  }
+
+  .legal-sheet { width: 100%; max-width: 50rem; margin-inline: auto; }
+  .legal-head { padding: 2.25rem 1.35rem 1.6rem; container-type: inline-size; }
+  .legal-body { padding: 0.6rem 1.35rem 2.75rem; }
+  @media (min-width: 640px) {
+    .legal-head { padding: 3.25rem 3.25rem 2rem; }
+    .legal-body { padding: 0.9rem 3.25rem 3.5rem; }
+  }
+
+  /* Document typography: comfortable measure, Figtree body, Bricolage heads. */
+  .legal { font-size: 1.0625rem; line-height: 1.7; overflow-wrap: break-word; }
+  /* The title scales with the header width (cqi), so a single long word
+     never breaks mid-word on a phone. The default fits words up to
+     "Widerrufsrecht"; .legal-title-long is for "Datenschutzerklärung" and
+     "Geschäftsbedingungen". The first declaration of each is the fallback
+     without container query units. */
+  .legal h1 {
+    font-size: clamp(1.75rem, 9vw, 3.25rem);
+    font-size: clamp(1.75rem, 12.5cqi, 3.25rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .legal h1.legal-title-long {
+    font-size: clamp(1.25rem, 6.5vw, 3.25rem);
+    font-size: clamp(1.25rem, 8.4cqi, 3.25rem);
+  }
+  .legal-lead { margin-top: 1rem; max-width: 40rem; color: var(--ink-muted); font-size: 1.1rem; line-height: 1.6; }
+
+  .legal h2 {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 2.6rem;
+    font-size: clamp(1.35rem, 3.6vw, 1.65rem);
+    line-height: 1.15;
+  }
+  /* Unnumbered sections: a small yellow ticket tab in front of the title. */
+  .legal h2::before {
+    content: "";
+    flex-shrink: 0;
+    width: 0.5rem;
+    height: 1.15em;
+    border-radius: 9999px;
+    background: var(--accent);
+    box-shadow: inset 0 0 0 1.5px rgb(0 0 0 / 0.08);
+  }
+  .legal h3 { margin-top: 1.6rem; font-size: 1.15rem; line-height: 1.3; }
+  .legal :where(p, ul, ol, address) { margin-top: 0.85rem; }
+  .legal :where(h2, h3) + :where(p, ul, ol, address) { margin-top: 0.7rem; }
+  .legal address { font-style: normal; }
+  .legal :where(b, strong) { font-weight: 700; color: var(--ink); }
+  .legal ul { list-style: disc; padding-left: 1.35rem; }
+  .legal ol { list-style: decimal; padding-left: 1.5rem; }
+  .legal li + li { margin-top: 0.45rem; }
+  .legal li::marker { color: var(--brand); }
+  .legal a:not([class]) {
+    color: var(--link);
+    font-weight: 650;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--link) 40%, transparent);
+  }
+  .legal a:not([class]):hover { text-decoration-color: currentColor; }
+  .legal code {
+    padding: 0.1em 0.4em;
+    border-radius: 0.35rem;
+    background: var(--surface-2);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.86em;
+  }
+
+  /* Numbered sections (Datenschutz, AGB): the number is a small green
+     ride sign, counted in CSS so the numbering always follows the order. */
+  .legal-numbered { counter-reset: legal-section; }
+  .legal-numbered h2 { counter-increment: legal-section; }
+  .legal-numbered h2::before {
+    content: counter(legal-section);
+    display: grid;
+    place-items: center;
+    width: auto;
+    min-width: 1.85rem;
+    height: 1.85rem;
+    padding-inline: 0.35rem;
+    border-radius: 0.55rem;
+    background: var(--brand);
+    color: var(--brand-ink);
+    box-shadow: 0 2px 0 var(--brand-deep);
+    font-size: 1rem;
+    line-height: 1;
+    rotate: -4deg;
+    translate: 0 -0.15rem;
+  }
+
+  /* Datenschutz summary: a mint box, not counted as a section. */
+  .legal-tldr {
+    margin-top: 1.4rem;
+    padding: 1.25rem 1.25rem 1.35rem;
+    border-radius: 1rem;
+    background: var(--surface-2);
+    box-shadow: inset 0 0 0 1.5px var(--line);
+  }
+  @media (min-width: 640px) { .legal-tldr { padding: 1.5rem 1.75rem 1.6rem; } }
+  .legal-numbered .legal-tldr h2 { counter-increment: none; margin-top: 0; }
+  .legal-numbered .legal-tldr h2::before { content: none; }
+  .legal-tldr ul { list-style: none; padding-left: 0; }
+  .legal-tldr li { position: relative; padding-left: 1.85rem; }
+  .legal-tldr li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    background: var(--brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 0.8rem no-repeat;
+  }
+  :where([data-theme="dark"]) .legal-tldr li::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2304140b' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  }
+
+  /* Kontakt: contact tiles. --tile is the brand colour of the channel,
+     --tile-bg optionally a gradient for the icon. */
+  .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.8rem; margin-top: 0.4rem; }
+  @media (min-width: 640px) { .contact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; } }
+  .contact-tile {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0;
+    padding: 0.85rem 0.8rem;
+    border-radius: 1rem;
+    background: var(--surface-2);
+    box-shadow: inset 0 0 0 1.5px var(--line);
+    color: var(--ink);
+    text-decoration: none;
+    transition: translate 0.25s var(--ease-bounce), box-shadow 0.2s ease;
+  }
+  .contact-tile:hover {
+    translate: 0 -3px;
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--tile, var(--brand)) 60%, transparent), 0 12px 20px -14px rgb(0 0 0 / 0.5);
+  }
+  .contact-icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    border: 3px solid var(--sticker-edge);
+    border-radius: 0.9rem;
+    background: var(--tile-bg, var(--tile, var(--brand)));
+    color: #fff;
+    box-shadow: 0 2px 0 rgb(0 0 0 / 0.07), 0 8px 14px -8px rgb(0 0 0 / 0.45);
+    rotate: -5deg;
+    transition: rotate 0.3s var(--ease-bounce);
+  }
+  .contact-tile:hover .contact-icon { rotate: 5deg; }
+  .contact-icon svg { width: 1.3rem; height: 1.3rem; }
+  .contact-body { display: flex; min-width: 0; flex-direction: column; }
+  .contact-kind {
+    color: var(--ink-muted);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+  /* The e-mail address carries a <wbr> before the @, so it wraps there
+     on narrow screens instead of mid-word. */
+  .contact-value { font-weight: 700; line-height: 1.35; overflow-wrap: break-word; }
+  /* The arrow is decoration; phones need the room for the values. */
+  .contact-arrow { display: none; width: 1.1rem; height: 1.1rem; margin-left: auto; flex-shrink: 0; color: var(--ink-muted); transition: translate 0.25s var(--ease-soft); }
+  @media (min-width: 640px) {
+    .contact-tile { gap: 1rem; padding: 0.9rem 1rem; }
+    .contact-arrow { display: block; }
+  }
+  .contact-tile:hover .contact-arrow { translate: 2px -2px; color: var(--ink); }
+}
