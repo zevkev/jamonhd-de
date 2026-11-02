@@ -2,17 +2,18 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Jamon (JamonHD) | Freizeitpark-Content und Gaming</title>
 <meta name="description" content="Jamon (JamonHD): Freizeitpark-Content, Gaming und Vlogs auf YouTube, täglich Clips auf TikTok, Bilder auf Instagram. Shop und die Medienspeicher Community, alles an einem Ort.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://jamonhd.de/">
-
 <link rel="icon" type="image/png" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
 <link rel="apple-touch-icon" href="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#1f9d63">
+<link rel="preload" href="/assets/fonts/figtree-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/app.css">
+<script src="/js/boot.js"></script>
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Jamon (JamonHD) | Freizeitpark-Content und Gaming">
@@ -23,9 +24,6 @@
 <meta property="og:locale" content="de_DE">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg">
-
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/home.css">
 
 <script type="application/ld+json">
 {
@@ -56,136 +54,260 @@
 }
 </script>
 </head>
-<body class="home">
-
-<script type="module" src="/js/theme.js"></script>
-<script type="module" src="/js/user-theme.js"></script>
-<script type="module" src="/js/consent.js"></script>
-
+<body>
 <div id="site-header"></div>
 
-<section class="zone zone--hero" id="top">
-  <div class="zone-inner">
+<main id="main" class="page">
 
-    <div class="hero-portrait reveal">
-      <div class="tape"></div>
-      <img src="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg" alt="Jamon (JamonHD) – Jason Tummes" loading="eager">
-    </div>
-
-    <div class="hero-card rip reveal">
-      <div class="tape" style="left:auto; right:30px; top:-10px; transform:rotate(7deg);"></div>
-      <h1>Jamon<span class="visually-hidden"> (JamonHD)</span></h1>
-      <p>In meiner Freizeit produziere ich Videos über <b>Freizeitparks, Gaming und Vlogs</b> für meinen YouTube Kanal <a href="https://www.youtube.com/@jamon_hd" target="_blank" rel="noopener" class="hero-link">Jamon</a>.</p>
-      <p>Zusätzlich teile ich täglich Ausschnitte auf <a href="https://www.tiktok.com/@jamon_tiktok" target="_blank" rel="noopener" class="hero-link">TikTok</a> sowie Bilder aus Freizeitparks auf <a href="https://www.instagram.com/jamononinsta/" target="_blank" rel="noopener" class="hero-link">Instagram</a>.</p>
-    </div>
-
-    <div class="hero-socials reveal">
-      <a class="p-btn rip social-btn" href="https://www.youtube.com/@jamon_hd" target="_blank" rel="noopener" data-track-click="home-social-youtube">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        YouTube
-      </a>
-      <a class="p-btn rip social-btn" href="https://www.instagram.com/jamononinsta/" target="_blank" rel="noopener" data-track-click="home-social-instagram">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        Instagram
-      </a>
-      <a class="p-btn rip social-btn" href="https://www.tiktok.com/@jamon_tiktok" target="_blank" rel="noopener" data-track-click="home-social-tiktok">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-        TikTok
-      </a>
-    </div>
-
-    <a href="/shop/" class="p-btn rip btn-accent hero-cta reveal" data-track-click="home-hero-shop">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      Zum Shop
-    </a>
-
-    <p class="hint-pill reveal">Weiter scrollen: <a href="#entdecken">Mehr entdecken</a></p>
-  </div>
-</section>
-
-<section class="zone zone--discord" id="entdecken">
-  <div class="zone-inner">
-
-    <p class="section-eyebrow reveal">Alles an einem Ort</p>
-
-    <div class="tile-grid">
-      <a href="/shop/" class="tile rip reveal tilt-a" data-track-click="home-tile-shop">
-        <div class="tape"></div>
-        <div class="tile-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+  <!-- ===================== Hero: the admission ticket ===================== -->
+  <section id="top" aria-labelledby="hero-title">
+    <div class="container-page">
+      <article class="ticket ticket-split hero-ticket reveal mx-auto max-w-md sm:max-w-xl lg:max-w-5xl">
+        <div class="hero-stub">
+          <div class="sticker hero-photo"><img src="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg" alt="Jamon (JamonHD), Jason Tummes" width="1920" height="1920" fetchpriority="high"></div>
         </div>
-        <h3>Merch Shop</h3>
-        <p>Hoodies, Shirts und mehr für die Community.</p>
-        <span class="tile-cta">Jetzt stöbern &rarr;</span>
-      </a>
+        <div class="split-perf" aria-hidden="true"></div>
+        <div class="min-w-0 flex-1 px-5 pb-7 pt-6 sm:px-9 sm:pb-9 sm:pt-8 lg:px-12 lg:py-11">
+          <h1 id="hero-title" class="hero-name"><span class="hero-word">Jamon<svg class="hero-swoosh" viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M4 13C48 6 118 3 196 9"/></svg></span><span class="sr-only"> (JamonHD)</span></h1>
+          <p class="mt-6 text-[1.06rem] leading-relaxed text-ink-muted sm:text-lg">In meiner Freizeit produziere ich Videos über <b class="font-bold text-ink">Freizeitparks, Gaming und Vlogs</b> für meinen YouTube Kanal <a class="link" href="https://www.youtube.com/@jamon_hd" target="_blank" rel="noopener">Jamon</a>.</p>
+          <p class="mt-3 text-[1.06rem] leading-relaxed text-ink-muted sm:text-lg">Zusätzlich teile ich täglich Ausschnitte auf <a class="link" href="https://www.tiktok.com/@jamon_tiktok" target="_blank" rel="noopener">TikTok</a> sowie Bilder aus Freizeitparks auf <a class="link" href="https://www.instagram.com/jamononinsta/" target="_blank" rel="noopener">Instagram</a>.</p>
+          <div class="mt-7 grid grid-cols-3 gap-2.5 sm:flex sm:flex-wrap sm:gap-3">
+            <a class="btn hero-social" href="https://www.youtube.com/@jamon_hd" target="_blank" rel="noopener">
+              <svg class="text-yt" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              YouTube
+            </a>
+            <a class="btn hero-social" href="https://www.instagram.com/jamononinsta/" target="_blank" rel="noopener">
+              <svg class="text-[#e1306c]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.03.084c-1.277.06-2.149.264-2.911.563-.789.308-1.458.72-2.123 1.388-.665.668-1.075 1.337-1.38 2.127-.295.764-.496 1.636-.552 2.914C.05 8.253.037 8.664.043 11.923c.006 3.259.021 3.667.083 4.947.06 1.277.264 2.148.563 2.911.309.789.72 1.457 1.388 2.123.668.665 1.337 1.074 2.129 1.38.763.295 1.636.496 2.913.552 1.277.056 1.689.069 4.947.063 3.257-.006 3.667-.021 4.947-.081 1.28-.061 2.147-.266 2.91-.564.789-.309 1.458-.72 2.123-1.388.665-.668 1.074-1.337 1.379-2.129.296-.763.497-1.636.552-2.912.056-1.281.069-1.69.063-4.948-.006-3.258-.021-3.667-.082-4.947-.06-1.28-.264-2.149-.563-2.912-.309-.789-.72-1.457-1.387-2.123C21.298 1.33 20.628.92 19.838.616 19.074.32 18.202.119 16.924.064 15.647.009 15.236-.005 11.977.001 8.718.007 8.31.022 7.03.084M7.17 21.776c-1.17-.051-1.805-.245-2.229-.408-.56-.216-.96-.477-1.382-.895-.422-.418-.681-.819-.9-1.378-.164-.423-.362-1.058-.417-2.228-.06-1.264-.072-1.644-.079-4.848-.007-3.204.005-3.583.061-4.848.05-1.169.246-1.805.408-2.228.216-.561.476-.96.895-1.382.419-.422.818-.681 1.378-.9.423-.165 1.057-.361 2.227-.417 1.265-.06 1.644-.072 4.848-.079 3.203-.007 3.583.005 4.848.061 1.169.053 1.805.246 2.228.408.56.216.96.475 1.382.895.422.419.681.818.9 1.378.165.422.361 1.056.417 2.226.06 1.265.074 1.645.079 4.848.005 3.203-.006 3.584-.062 4.848-.052 1.17-.246 1.805-.408 2.229-.216.56-.477.96-.895 1.382-.419.421-.818.68-1.378.899-.422.165-1.058.362-2.226.418-1.265.06-1.645.072-4.849.079-3.204.007-3.582-.006-4.848-.062M15.947 5.586a1.44 1.44 0 1 0 1.437-1.442 1.44 1.44 0 0 0-1.437 1.442M5.839 12a6.161 6.161 0 1 0 12.323-.001 6.161 6.161 0 0 0-12.323.001M8 12a4 4 0 1 1 4 4 4 4 0 0 1-4-4"/></svg>
+              Instagram
+            </a>
+            <a class="btn hero-social" href="https://www.tiktok.com/@jamon_tiktok" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+              TikTok
+            </a>
+          </div>
+          <a class="btn btn-brand btn-lg mt-4 w-full sm:w-auto" href="/shop/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Zum Shop
+          </a>
+        </div>
+      </article>
 
-      <a href="/youtube/" class="tile rip rip--b reveal tilt-b" data-track-click="home-tile-youtube">
-        <div class="tape" style="left:auto; right:20px; transform:rotate(9deg);"></div>
-        <div class="tile-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </div>
-        <h3>YouTube</h3>
-        <p>Freizeitpark-Content, Gaming und Vlogs.</p>
-        <span class="tile-cta">Videos ansehen &rarr;</span>
-      </a>
-
-      <div class="tile tile--discord rip rip--c reveal tilt-c">
-        <div class="tape"></div>
-        <div class="tile-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.25-1.845-.276-3.68-.276-5.487 0-.163-.393-.406-.874-.618-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.028C.533 9.046-.319 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.245.198.373.292a.077.077 0 0 1-.006.127 12.298 12.298 0 0 1-1.873.892.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.834 19.834 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.66a.061.061 0 0 0-.031-.03M8.02 15.33c-1.182 0-2.157-1.086-2.157-2.42 0-1.333.956-2.42 2.157-2.42 1.211 0 2.176 1.096 2.157 2.42 0 1.334-.956 2.42-2.157 2.42m7.974 0c-1.182 0-2.157-1.086-2.157-2.42 0-1.333.955-2.42 2.157-2.42 1.21 0 2.176 1.096 2.157 2.42 0 1.334-.946 2.42-2.157 2.42"/></svg>
-        </div>
-        <h3>Medienspeicher Discord</h3>
-        <p>Community von ZevKev, Jamon und Belloflo. Austausch, Ankündigungen zuerst, Events und Behind the Scenes.</p>
-        <div class="tile-btn-row">
-          <a class="p-btn rip btn-discord" href="https://discord.com/invite/psW4NgjBFN" target="_blank" rel="noopener" data-track-click="discord-join">Beitreten</a>
-          <button class="p-btn rip btn-ghost-light" id="discord-copy" data-invite="https://discord.com/invite/psW4NgjBFN" type="button" data-track-click="discord-copy-invite">Link kopieren</button>
-        </div>
-        <p class="copy-ok" id="discord-copy-ok" aria-live="polite"></p>
-      </div>
+      <p class="scroll-hint reveal">
+        <span class="scroll-hint-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>
+        <span>Weiter scrollen: <a class="link" href="#entdecken">Mehr entdecken</a></span>
+      </p>
     </div>
+  </section>
 
-    <details class="how-accordion rip rip--b reveal">
-      <div class="tape" style="left:auto; right:28px; top:-8px; transform:rotate(8deg);"></div>
-      <summary><span class="chev">&#9654;</span> So trittst du dem Discord bei</summary>
-      <ol>
-        <li>Auf <b>Beitreten</b> tippen. Der Invite öffnet Discord.</li>
-        <li>Account wählen oder neu erstellen. Geht auch am Handy.</li>
-        <li>Kurz <b>#regeln</b> lesen, Rolle abholen. Fertig, willkommen!</li>
-      </ol>
-    </details>
+  <!-- ===================== Alles an einem Ort ===================== -->
+  <section id="entdecken" class="pt-20 sm:pt-28" aria-labelledby="entdecken-title">
+    <div class="container-page">
+      <div class="reveal text-center">
+        <div class="signboard">
+          <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3 3 6v15l6-3 6 3 6-3V3l-6 3-6-3Z"/><path d="M9 3v15M15 6v15"/></svg>Parkplan</span>
+          <h2 id="entdecken-title" class="signboard-title">Alles an einem Ort</h2>
+          <p class="signboard-sub">Shop, Videos und Community.</p>
+        </div>
+      </div>
 
-    <p class="team-lead reveal">Das Team dahinter</p>
-    <div class="c-grid">
-      <div class="c-card rip reveal tilt-a">
-        <div class="tape"></div>
-        <div class="team-avatar-frame"><img src="https://zevkev.github.io/Medienspeicher/Bilder/neues%20icon.png" alt="ZevKev" loading="lazy"></div>
-        <h3>ZevKev</h3>
-        <p>Videos und Entertainment. Leiter vom Team.</p>
-        <a class="p-btn rip rip--accent" href="https://zevkev.de" target="_blank" rel="noopener" style="padding:8px 16px; font-size:0.88rem;">zevkev.de</a>
-      </div>
-      <div class="c-card rip rip--b reveal tilt-b">
-        <div class="tape" style="left:auto; right:20px; transform:rotate(9deg);"></div>
-        <div class="team-avatar-frame"><img src="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg" alt="Jamon" loading="lazy"></div>
-        <h3>Jamon</h3>
-        <p>Freizeitpark-Content, Gaming und Vlogs. Der Kopf hinter dieser Seite.</p>
-      </div>
-      <div class="c-card rip rip--c reveal tilt-c">
-        <div class="tape"></div>
-        <div class="team-avatar-frame"><img src="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg" alt="Belloflo" loading="lazy"></div>
-        <h3>Belloflo</h3>
-        <p>Minecraft und Real Life Content.</p>
-        <a class="p-btn rip rip--accent" href="https://belloflo.de" target="_blank" rel="noopener" style="padding:8px 16px; font-size:0.88rem;">belloflo.de</a>
-      </div>
+      <ul class="mx-auto mt-12 grid max-w-md grid-cols-1 gap-7 md:max-w-none md:grid-cols-3 md:gap-5 lg:gap-8">
+        <li class="reveal">
+          <a class="ticket ticket-sun ticket-lift attraction" href="/shop/">
+            <div class="flex-1 p-6 sm:p-7 md:p-5 lg:p-7">
+              <span class="attraction-icon bg-accent text-accent-ink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+              <h3 class="attraction-title mt-5">Merch Shop</h3>
+              <p class="mt-2 leading-relaxed text-ink-muted">Hoodies, Shirts und mehr für die Community.</p>
+            </div>
+            <hr class="ticket-perf">
+            <div class="flex h-16 items-center justify-between gap-3 px-6 font-bold sm:px-7 md:px-5 lg:px-7">
+              <span>Jetzt stöbern</span>
+              <span class="attraction-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+        </li>
+        <li class="reveal">
+          <a class="ticket ticket-lift attraction" href="/youtube/">
+            <div class="flex-1 p-6 sm:p-7 md:p-5 lg:p-7">
+              <span class="attraction-icon bg-yt text-white"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>
+              <h3 class="attraction-title mt-5">YouTube</h3>
+              <p class="mt-2 leading-relaxed text-ink-muted">Freizeitpark-Content, Gaming und Vlogs.</p>
+            </div>
+            <hr class="ticket-perf">
+            <div class="flex h-16 items-center justify-between gap-3 px-6 font-bold sm:px-7 md:px-5 lg:px-7">
+              <span>Videos ansehen</span>
+              <span class="attraction-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </div>
+          </a>
+        </li>
+        <li class="reveal">
+          <a class="ticket ticket-mint ticket-lift attraction" href="#discord">
+            <div class="flex-1 p-6 sm:p-7 md:p-5 lg:p-7">
+              <span class="attraction-icon bg-discord text-white"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.25-1.845-.276-3.68-.276-5.487 0-.163-.393-.406-.874-.618-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.028C.533 9.046-.319 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.245.198.373.292a.077.077 0 0 1-.006.127 12.298 12.298 0 0 1-1.873.892.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.834 19.834 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.66a.061.061 0 0 0-.031-.03M8.02 15.33c-1.182 0-2.157-1.086-2.157-2.42 0-1.333.956-2.42 2.157-2.42 1.211 0 2.176 1.096 2.157 2.42 0 1.334-.956 2.42-2.157 2.42m7.974 0c-1.182 0-2.157-1.086-2.157-2.42 0-1.333.955-2.42 2.157-2.42 1.21 0 2.176 1.096 2.157 2.42 0 1.334-.946 2.42-2.157 2.42"/></svg></span>
+              <h3 class="attraction-title mt-5">Medienspeicher Discord</h3>
+              <p class="mt-2 leading-relaxed text-ink-muted">Die Community von ZevKev, Jamon und Belloflo.</p>
+            </div>
+            <hr class="ticket-perf">
+            <div class="flex h-16 items-center justify-between gap-3 px-6 font-bold sm:px-7 md:px-5 lg:px-7">
+              <span>Zur Einladung</span>
+              <span class="attraction-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span>
+            </div>
+          </a>
+        </li>
+      </ul>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- ===================== Discord ===================== -->
+  <section id="discord" class="pt-20 sm:pt-28" aria-labelledby="discord-title">
+    <div class="container-page">
+      <div class="reveal text-center">
+        <div class="signboard">
+          <span class="kicker"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.25-1.845-.276-3.68-.276-5.487 0-.163-.393-.406-.874-.618-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.028C.533 9.046-.319 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.245.198.373.292a.077.077 0 0 1-.006.127 12.298 12.298 0 0 1-1.873.892.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.834 19.834 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.66a.061.061 0 0 0-.031-.03M8.02 15.33c-1.182 0-2.157-1.086-2.157-2.42 0-1.333.956-2.42 2.157-2.42 1.211 0 2.176 1.096 2.157 2.42 0 1.334-.956 2.42-2.157 2.42m7.974 0c-1.182 0-2.157-1.086-2.157-2.42 0-1.333.955-2.42 2.157-2.42 1.21 0 2.176 1.096 2.157 2.42 0 1.334-.946 2.42-2.157 2.42"/></svg>Community</span>
+          <h2 id="discord-title" class="signboard-title">Komm in den Discord</h2>
+          <p class="signboard-sub">Der Treffpunkt für die ganze Community.</p>
+        </div>
+      </div>
+
+      <!-- Invite ticket: the stub with the join button tears off on the right (lg) or at the bottom -->
+      <article class="ticket ticket-split dc-invite reveal mx-auto mt-12 max-w-md sm:max-w-xl lg:max-w-4xl" aria-labelledby="dc-name">
+        <div class="min-w-0 flex-1 px-5 pb-7 pt-7 sm:px-8 sm:pt-8 lg:p-10">
+          <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5">
+            <div class="sticker dc-icon"><img src="/assets/img/discord-icon.png" alt="" width="256" height="256" loading="lazy"></div>
+            <div class="min-w-0">
+              <p class="dc-eyebrow">Du bist eingeladen</p>
+              <h3 id="dc-name" class="dc-name">Medienspeicher</h3>
+              <p class="dc-stats" id="dc-stats" hidden>
+                <span><i class="dc-dot dc-dot-online" aria-hidden="true"></i><b id="dc-online"></b> online</span>
+                <span><i class="dc-dot" aria-hidden="true"></i><b id="dc-members"></b> Mitglieder</span>
+              </p>
+            </div>
+          </div>
+          <p class="mt-6 text-[1.06rem] leading-relaxed text-ink-muted">Community von ZevKev, Jamon und Belloflo. Austausch, Ankündigungen zuerst, Events und Behind the Scenes.</p>
+        </div>
+        <div class="split-perf" aria-hidden="true"></div>
+        <div class="dc-stub">
+          <div class="dc-actions">
+            <a class="btn btn-discord btn-lg btn-block" href="https://discord.com/invite/psW4NgjBFN" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.25-1.845-.276-3.68-.276-5.487 0-.163-.393-.406-.874-.618-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.028C.533 9.046-.319 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.245.198.373.292a.077.077 0 0 1-.006.127 12.298 12.298 0 0 1-1.873.892.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.834 19.834 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.673-3.548-13.66a.061.061 0 0 0-.031-.03M8.02 15.33c-1.182 0-2.157-1.086-2.157-2.42 0-1.333.956-2.42 2.157-2.42 1.211 0 2.176 1.096 2.157 2.42 0 1.334-.956 2.42-2.157 2.42m7.974 0c-1.182 0-2.157-1.086-2.157-2.42 0-1.333.955-2.42 2.157-2.42 1.21 0 2.176 1.096 2.157 2.42 0 1.334-.946 2.42-2.157 2.42"/></svg>
+              Jetzt beitreten
+            </a>
+            <div class="dc-link">
+              <span class="dc-link-text">discord.gg/psW4NgjBFN</span>
+              <button class="btn btn-sm dc-copy" id="discord-copy" type="button" data-invite="https://discord.com/invite/psW4NgjBFN" aria-label="Einladungslink kopieren">
+                <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg class="copy-done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                <span class="dc-copy-label max-[379px]:sr-only">Kopieren</span>
+              </button>
+            </div>
+            <p class="dc-copy-ok" id="discord-copy-ok" aria-live="polite"></p>
+          </div>
+        </div>
+      </article>
+
+      <!-- How to join: the three steps show after a click on the toggle -->
+      <details class="dc-how reveal mx-auto mt-10 max-w-md lg:max-w-5xl">
+        <summary class="btn btn-lg mx-auto flex w-fit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.2a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2.2-2.4 3.6M12 17h.01"/></svg>
+          So trittst du bei
+          <svg class="dc-how-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <ol class="mt-9 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-7">
+          <li class="dc-step ticket ticket-sun p-6">
+            <div class="flex items-center gap-3.5">
+              <span class="step-num" aria-hidden="true">1</span>
+              <h3 class="text-[1.4rem]">Einladung öffnen</h3>
+            </div>
+            <p class="mt-3 leading-relaxed text-ink-muted">Auf <b class="font-bold text-ink">Jetzt beitreten</b> tippen. Der Invite öffnet Discord.</p>
+          </li>
+          <li class="dc-step ticket ticket-mint p-6">
+            <div class="flex items-center gap-3.5">
+              <span class="step-num" aria-hidden="true">2</span>
+              <h3 class="text-[1.4rem]">Account wählen</h3>
+            </div>
+            <p class="mt-3 leading-relaxed text-ink-muted">Account wählen oder neu erstellen. Geht auch am Handy.</p>
+          </li>
+          <li class="dc-step ticket p-6">
+            <div class="flex items-center gap-3.5">
+              <span class="step-num" aria-hidden="true">3</span>
+              <h3 class="text-[1.4rem]">Loslegen</h3>
+            </div>
+            <p class="mt-3 leading-relaxed text-ink-muted">Kurz <b class="font-bold text-ink">#regeln</b> lesen, Rolle abholen. Fertig, willkommen!</p>
+          </li>
+        </ol>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===================== Team ===================== -->
+  <section id="team" class="pt-20 sm:pt-28" aria-labelledby="team-title">
+    <div class="container-page">
+      <div class="reveal text-center">
+        <div class="signboard">
+          <span class="kicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Crew</span>
+          <h2 id="team-title" class="signboard-title">Das Team dahinter</h2>
+          <p class="signboard-sub">Drei Creator, eine Community.</p>
+        </div>
+      </div>
+
+      <ul class="mx-auto mt-12 grid max-w-sm grid-cols-1 gap-8 md:max-w-none md:grid-cols-3 md:gap-6 lg:gap-8">
+        <li class="reveal">
+          <article class="ticket ticket-lift team-card [--role:#1e88e5]" aria-labelledby="team-zevkev">
+            <div class="team-window">
+              <span class="team-no">Nr. 01</span>
+              <div class="sticker team-photo"><img src="https://zevkev.github.io/Medienspeicher/Bilder/neues%20icon.png" alt="ZevKev" width="1024" height="1024" loading="lazy"></div>
+            </div>
+            <hr class="ticket-perf mt-3">
+            <div class="flex flex-1 flex-col items-center px-6 pb-7 pt-5 text-center">
+              <span class="stamp team-role">Leitung</span>
+              <h3 id="team-zevkev" class="team-name mt-3">ZevKev</h3>
+              <p class="mt-2 leading-relaxed text-ink-muted">Videos und Entertainment. Leiter vom Team.</p>
+              <div class="mt-auto pt-5">
+                <a class="btn btn-sm" href="https://zevkev.de" target="_blank" rel="noopener">zevkev.de<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+              </div>
+            </div>
+          </article>
+        </li>
+        <li class="reveal">
+          <article class="ticket ticket-lift team-card [--role:#22a06b]" aria-labelledby="team-jamon">
+            <div class="team-window">
+              <span class="team-no">Nr. 02</span>
+              <div class="sticker team-photo"><img src="https://zevkev.github.io/Medienspeicher/Bilder/Jamon.jpg" alt="Jamon" width="1920" height="1920" loading="lazy"></div>
+            </div>
+            <hr class="ticket-perf mt-3">
+            <div class="flex flex-1 flex-col items-center px-6 pb-7 pt-5 text-center">
+              <span class="stamp team-role">Co Owner</span>
+              <h3 id="team-jamon" class="team-name mt-3">Jamon</h3>
+              <p class="mt-2 leading-relaxed text-ink-muted">Freizeitpark-Content, Gaming und Vlogs. Der Kopf hinter dieser Seite.</p>
+              <div class="mt-auto pt-5">
+                <a class="btn btn-sm" href="https://www.youtube.com/@jamon_hd" target="_blank" rel="noopener"><svg class="text-yt" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>@jamon_hd<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+              </div>
+            </div>
+          </article>
+        </li>
+        <li class="reveal">
+          <article class="ticket ticket-lift team-card [--role:#e5484d]" aria-labelledby="team-belloflo">
+            <div class="team-window">
+              <span class="team-no">Nr. 03</span>
+              <div class="sticker team-photo"><img src="https://zevkev.github.io/Medienspeicher/Bilder/bello.jpg" alt="Belloflo" width="4040" height="4040" loading="lazy"></div>
+            </div>
+            <hr class="ticket-perf mt-3">
+            <div class="flex flex-1 flex-col items-center px-6 pb-7 pt-5 text-center">
+              <span class="stamp team-role">Mitglied</span>
+              <h3 id="team-belloflo" class="team-name mt-3">Belloflo</h3>
+              <p class="mt-2 leading-relaxed text-ink-muted">Minecraft und Real Life Content.</p>
+              <div class="mt-auto pt-5">
+                <a class="btn btn-sm" href="https://belloflo.de" target="_blank" rel="noopener">belloflo.de<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
+              </div>
+            </div>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </section>
+</main>
 
 <div id="site-footer"></div>
-
-<script type="module">
-  import { mountLayout } from "/js/layout.js";
-  mountLayout();
-</script>
+<script type="module" src="/js/layout.js"></script>
 <script type="module" src="/js/home.js"></script>
 </body>
 </html>

@@ -1,0 +1,178 @@
+/* Page styles: youtube. Owned by the youtube page; wrap rules in @layer components so utilities can override them.
+   Everything here is yt- prefixed (this file is compiled into the shared
+   app.css that every page loads), so nothing leaks onto other pages. */
+@layer components {
+  /* ---------- Hero: channel pass, a ticket with a stats stub ---------- */
+  .yt-pass {
+    --stub-h: 7.25rem;
+    display: flex;
+    flex-direction: column;
+  }
+  /* The stub has a fixed height, so the notches sit on its perforation (plus
+     half the 2.5px line) at a fixed distance from the bottom, however tall
+     the pass gets. Without the
+     stub (error state) they fall back to the middle. */
+  .yt-pass--stub { --notch-y: calc(100% - var(--stub-h) + 1.25px); }
+  .yt-stub {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: var(--stub-h);
+  }
+  .yt-stub-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.6rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .yt-stub-body { padding-inline: 2rem; }
+  }
+  .yt-stub-caption {
+    color: var(--ink-muted);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .yt-stats { display: flex; }
+  .yt-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding-inline: clamp(0.7rem, 3vw, 1.4rem);
+  }
+  .yt-stat:first-child { padding-left: 0; }
+  .yt-stat + .yt-stat { border-left: 2px dashed var(--line); }
+  .yt-stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .yt-stat-label {
+    margin-top: 0.3rem;
+    color: var(--ink-muted);
+    font-size: 0.68rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Red YouTube label in the heading, cut out like a sticker. */
+  .yt-chip {
+    display: inline-block;
+    padding: 0.02em 0.26em 0.1em;
+    border: 0.075em solid var(--sticker-edge);
+    border-radius: 0.3em;
+    background: #ff0033;
+    color: #fff;
+    rotate: -3deg;
+    box-shadow: 0 2px 0 rgb(0 0 0 / 0.07), 0 12px 22px -10px rgb(0 0 0 / 0.45);
+  }
+
+  /* ---------- Hero: newest video, a big ticket ---------- */
+  /* The wrapper is the size container: the ticket's notches have to sit on
+     the perforation under the 16:9 thumbnail, whose height follows the width
+     (padding + thumbnail + perforation margin + half the 2.5px line). */
+  .yt-feature-wrap { container-type: inline-size; }
+  .yt-feature {
+    --fp: 0.75rem;
+    --notch-y: calc(var(--fp) + (100cqw - 2 * var(--fp)) * 9 / 16 + 1rem + 1.25px);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  @media (min-width: 640px) {
+    .yt-feature { --fp: 1rem; }
+  }
+  .yt-feature-media { padding: var(--fp) var(--fp) 0; }
+  .yt-feature-perf { margin-top: 1rem; }
+  .yt-feature-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .yt-feature-body { padding: 1.4rem 1.75rem 1.75rem; }
+  }
+  .yt-feature-thumb { display: block; }
+  .yt-feature-thumb:hover img { scale: 1.04; }
+  .yt-feature-title {
+    font-size: clamp(1.65rem, 4.2vw, 2.45rem);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+  }
+  .yt-feature-title a { text-decoration: none; }
+  .yt-feature-title a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 4px; }
+
+  /* Arcade play button on the featured thumbnail. */
+  .yt-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 9999px;
+    background: var(--brand);
+    color: var(--brand-ink);
+    box-shadow: 0 5px 0 var(--brand-deep), 0 16px 28px -10px rgb(0 0 0 / 0.6);
+    translate: -50% -50%;
+    transition: scale 0.3s var(--ease-bounce);
+  }
+  .yt-play svg { width: 1.9rem; height: 1.9rem; margin-left: 0.2rem; }
+  .yt-feature-thumb:hover .yt-play { scale: 1.1; }
+  @media (max-width: 639.98px) {
+    .yt-play { width: 3.6rem; height: 3.6rem; }
+    .yt-play svg { width: 1.5rem; height: 1.5rem; }
+  }
+
+  /* ---------- Grid cards (shared .video-card, tuned for this page) ---------- */
+  .yt-grid .video-card { height: 100%; }
+  .yt-grid .video-card:focus-visible { outline-offset: 4px; }
+  .yt-meta {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.4rem;
+  }
+  .yt-meta > * + *::before {
+    content: "\00B7";
+    margin-right: 0.4rem;
+  }
+  /* "Platz 1" to "Platz 3" sticker when sorted by views. */
+  .yt-rank {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    box-shadow: 0 3px 0 var(--accent-deep);
+    rotate: -4deg;
+  }
+  /* Thumbnail that failed to load: keep the dark frame, show a muted glyph. */
+  .yt-thumb-broken img { visibility: hidden; }
+  .yt-thumb-broken::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white' fill-opacity='0.28'%3E%3Cpath d='M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z'/%3E%3C/svg%3E") center / 2.5rem no-repeat;
+  }
+
+  /* Shorts: narrower cards in a denser grid. */
+  .yt-grid--shorts .video-card { gap: 0.55rem; padding: 0.5rem 0.5rem 0.85rem; }
+  .yt-grid--shorts .video-title { font-size: 0.9rem; }
+  .yt-grid--shorts .video-meta { font-size: 0.75rem; }
+  .yt-grid--shorts .yt-meta { flex-direction: column; }
+  .yt-grid--shorts .yt-meta > * + *::before { content: none; }
+  .yt-grid--shorts .video-thumb::after { width: 2.75rem; height: 2.75rem; background-size: 1.25rem; }
+}
