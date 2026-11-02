@@ -58,7 +58,7 @@ any change to this.
 | `404.html` | Pages fallback: `/shop/<slug>` product pages, old `/video/<id>/` to YouTube, removed account pages to `/`. |
 | `youtube/` + `js/youtube.js` | Channel page (data `assets/data/main-videos.json`, RSS, latest ~15). |
 | `fourthwall-redirect*.html` | Snippets pasted into Fourthwall's own theme (shop.jamonhd.de -> jamonhd.de/shop). Not part of the site design, don't restyle. |
-| `scripts/*.mjs` + `.github/workflows/data-refresh.yml` | Every 30 min: YouTube RSS feed, Discord invite stats. |
+| `scripts/*.mjs` + `.github/workflows/data-refresh.yml` | Every 30 min (GitHub often runs it only every few hours): YouTube RSS feed, Discord invite stats. On a change it commits, pushes and dispatches `deploy.yml` itself, because pushes made with the workflow token never start other workflows. |
 | `tools/serve.mjs` | Local preview that behaves like GitHub Pages (404 fallback, no cache): `node tools/serve.mjs 8200`. |
 
 ## Fourthwall facts
