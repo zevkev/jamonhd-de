@@ -47,7 +47,7 @@
     .hero-photo { width: 16.5rem; height: 16.5rem; }
   }
 
-  /* Wordmark: solid ink, a hand-drawn yellow swoosh below the baseline
+  /* Wordmark: solid ink, a hand-drawn green swoosh below the baseline
      (it never sits behind the letters, so it reads in both themes). */
   .hero-name {
     font-size: clamp(3.75rem, 15vw, 6.5rem);
@@ -63,7 +63,7 @@
     height: 0.2em;
     overflow: visible;
     fill: none;
-    stroke: var(--accent);
+    stroke: var(--brand);
     stroke-width: 0.085em;
     stroke-linecap: round;
     vector-effect: non-scaling-stroke;
